@@ -28,14 +28,10 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-type Props = {
-    loginError: any,
-    login: (username: string, password: string) => void,
-};
 
-function Login(props: Props) {
+function Login(props) {
 	
-	const { login, loginError } = props;
+	const { loginError } = props.loginError;
 	const classes = useStyles();
 	const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -47,8 +43,9 @@ function Login(props: Props) {
         username.length > 0 ? setUsernameError("") : setUsernameError("Username is empty");
         password.length > 0 ? setPasswordError("") : setPasswordError("Passwort is empty");
 
-        if (username.length > 0 && password.length > 0)
-            login(username, password);
+        if (username.length > 0 && password.length > 0) {
+            props.login(username, password);
+        }
     }
 	
 	return (
@@ -109,7 +106,7 @@ function Login(props: Props) {
                 }
 				<Grid container>
                     <Grid item>
-                        Forgot your passwort? &nbsp;
+                        Forgot your password? &nbsp;
                         <Link href="mailto:test@example.com?subject=password" variant="body2">
                             Do something later.
                         </Link>

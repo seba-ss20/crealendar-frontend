@@ -27,14 +27,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-type Props = {
-    signupError: any,
-    signup: (username: string, password: string, confirmPassword: string) => void,
-};
-
-function Signup(props: Props) {
+function Signup(props) {
 	
-	const { signup, signupError } = props;
+	const { signupError } = props.signupError;
 	const classes = useStyles();
 	const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -49,10 +44,10 @@ function Signup(props: Props) {
         password.length > 0 ? setPasswordError("") : setPasswordError("Passwort is empty");
 		confirmPassword.length > 0 ? setConfirmPasswordError("") : setConfirmPasswordError("Passwort is empty");
 
-        if (username.length > 0 && password.length > 0 && confirmPassword.length > 0 && password.length==confirmPassword.length)
-            signup(username, password, confirmPassword);
+        if (username.length > 0 && password.length > 0 && confirmPassword.length > 0 && password.localeCompare(confirmPassword) === 0)
+            props.signup(username, password);
 		else {
-			props.showError("Passwords do not match.")
+		    setConfirmPasswordError("Passwords do not match.")
 		}
     }
 	
