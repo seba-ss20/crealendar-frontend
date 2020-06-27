@@ -8,11 +8,12 @@ export default class UserService {
     constructor() {
     }
 
-    static register(user, pass) {
+    static register(user, pass, role) {
         return new Promise((resolve, reject) => {
             HttpService.post(`${baseURL}/register`, {
                 username: user,
-                password: pass
+                password: pass,
+                role: role
             }, function(data) {
                 resolve(data);
             }, function(textStatus) {

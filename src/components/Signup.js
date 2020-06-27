@@ -10,6 +10,9 @@ import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -37,15 +40,18 @@ function Signup(props) {
 	const [usernameError, setUsernameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [switchChecked, setSwitchChecked] = useState(false);
+    const [userRole, setUserRole] = useState("");
 	
 	function handleSubmit(event) {
         event.preventDefault();
         username.length > 0 ? setUsernameError("") : setUsernameError("Username is empty");
         password.length > 0 ? setPasswordError("") : setPasswordError("Passwort is empty");
 		confirmPassword.length > 0 ? setConfirmPasswordError("") : setConfirmPasswordError("Passwort is empty");
+		switchChecked ? setUserRole("Organizer") : setUserRole("User")
 
         if (username.length > 0 && password.length > 0 && confirmPassword.length > 0 && password.localeCompare(confirmPassword) === 0)
-            props.signup(username, password);
+            props.signup(username, password, userRole);
 		else {
 		    setConfirmPasswordError("Passwords do not match.")
 		}
@@ -106,6 +112,12 @@ function Signup(props) {
                                 autoComplete="current-password"
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControlLabel
+                                control={<Switch checked={switchChecked} onChange={e => setSwitchChecked(e.target.checked)}  />}
+                                label="Are you an Event Organizer?" labelPlacement='start'
                             />
                         </Grid>
 					</Grid>

@@ -6,6 +6,8 @@ import {UserSignupView} from './views/UserSignupView'
 import history from './router/history';
 import { goToLoginPage } from './router/functions'
 import UserPage from './components/UserPage'
+import OrganizerPage from "./components/OrganizerPage";
+import Welcome from "./components/Welcome";
 
 
 class App extends Component {
@@ -14,6 +16,8 @@ class App extends Component {
 			<Route path="/login" key="/login" component={UserLoginView} />,
 			<Route path="/signup" key="/signup" component={UserSignupView} />,
 			<Route path="/user" key="/user" component={UserPage} />,
+			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
+			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		
 		return (

@@ -41,6 +41,9 @@ const useStyles = makeStyles({
 	toolbarButtons: {
 		marginLeft: 'auto',
 	},
+	appBar:{
+		background: '#69d0c3',
+	},
 });
 
 function Header() {
@@ -48,7 +51,7 @@ function Header() {
 	
 	return (
 		<div className={classes.root}>
-			<AppBar position="fixed">
+			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar className={classes.toolbar}>
 					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
 						<MenuIcon />

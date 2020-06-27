@@ -14,9 +14,9 @@ export class UserSignupView extends React.Component {
         };
     }
 
-    async signup(username, password) {
+    async signup(username, password, userRole) {
         try {
-            let ret = await UserService.register(username, password);
+            let ret = await UserService.register(username, password, userRole);
             this.props.history.push('/');
         } catch(err) {
             console.error(err);
@@ -28,7 +28,7 @@ export class UserSignupView extends React.Component {
 
     render() {
         return (
-            <Signup signup={(username, password) => this.signup(username, password)} signupError={this.state.error}></Signup>
+            <Signup signup={(username, password, userRole) => this.signup(username, password, userRole)} signupError={this.state.error}></Signup>
     );
     }
 }
