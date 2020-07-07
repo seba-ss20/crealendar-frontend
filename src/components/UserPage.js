@@ -134,34 +134,26 @@ function UserPage () {
 
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+
+    const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
-
-    const [events, setEvents] = React.useState([
-        {
-            start: moment().toDate(),
-            end: moment()
-                .add(1, "days")
-                .toDate(),
-            title: "Some title"
-        }
-    ]);
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
+    const [events, setEvents] = React.useState([
+    {
+        start: moment().toDate(),
+        end: moment()
+            .add(1, "days")
+            .toDate(),
+        title: "Some title"
+    }
+    ]);
 
-    const handleClick = () => {
-        setUpcomingEventsOpen(!upcomingEventsOpen);
-    };
-    const handleDiscoverClick = () => {
-        setDiscoverEventsOpen(!discoverEventsOpen);
-    };
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+    const handleClick = () => { setUpcomingEventsOpen(!upcomingEventsOpen ); };
+    const handleDiscoverClick = () => { setDiscoverEventsOpen(!discoverEventsOpen ); };
+    const handleDrawerOpen = () => { setAppBarOpen(true); };
+    const handleDrawerClose = () => { setAppBarOpen(false); };
+    const user='Ilteber Ayvaci';
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-    const eben="Eben Anan"
     let preventDefault;
     const defaultProps = {
         bgcolor: 'background.paper',
@@ -173,7 +165,7 @@ function UserPage () {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="fixed" className={clsx(classes.appBar, {
-                [classes.appBarShift]: open,
+                [classes.appBarShift]: appBarOpen,
             })}>
                 <Toolbar className={classes.toolbar}>
                     <IconButton
@@ -181,7 +173,7 @@ function UserPage () {
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        className={clsx(classes.menuButton, open && classes.hide)}
+                        className={clsx(classes.menuButton, appBarOpen && classes.hide)}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -197,7 +189,7 @@ function UserPage () {
                 className={classes.drawer}
                 variant="persistent"
                 anchor="left"
-                open={open}
+                open={appBarOpen}
                 classes={{
                     paper: classes.drawerPaper,
                 }}
@@ -210,11 +202,11 @@ function UserPage () {
                 <Divider />
 
                 <ListItem button key="avatar" alignItems>
-                    <Avatar alt={eben} src="/public/calendar_icon.png" className={classes.large}/>
+                    <Avatar alt={user} src="/public/calendar_icon.png" className={classes.large}/>
                 </ListItem>
                 <ListItem>
                     <Link href="#" onClick={preventDefault} className={classes.centralize}>
-                        {eben}
+                        {user}
                     </Link>
                 </ListItem>
                 <Divider />
@@ -327,7 +319,7 @@ function UserPage () {
             </Drawer>
             <main
                 className={clsx(classes.content, {
-                    [classes.contentShift]: open,
+                    [classes.contentShift]: appBarOpen,
                 })}
             >
                 <div className={classes.drawerHeader} />
