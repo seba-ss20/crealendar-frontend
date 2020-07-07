@@ -4,7 +4,7 @@ import logo from '../images/logo_withbackground.jpg'
 
 import { makeStyles } from '@material-ui/core/styles';
 //import { Divider } from '@material-ui/core';
-
+import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar';
 //import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -19,7 +19,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/Menu';
 //import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 //import Tooltip from '@material-ui/core/Tooltip';
-
+import { withRouter } from 'react-router-dom';
 import { goToLoginPage } from '../router/functions'
 import { Link } from 'react-router-dom';
 
@@ -45,10 +45,14 @@ const useStyles = makeStyles({
 		background: '#69d0c3',
 	},
 });
-
+const propTypes = {
+	match: PropTypes.object.isRequired,
+	location: PropTypes.object.isRequired,
+	history: PropTypes.object.isRequired
+}
 function Header() {
 	const classes = useStyles()
-	
+	// const { match, location, history } = this.props
 	return (
 		<div className={classes.root}>
 			<AppBar position="fixed" className={classes.appBar}>

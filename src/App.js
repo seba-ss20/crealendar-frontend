@@ -23,7 +23,6 @@ class App extends Component {
 		return (
 			<div>
 				<Router history={history}>
-					<Header/>
 					<Switch>{routes}</Switch>
 				</Router>
 			</div>
