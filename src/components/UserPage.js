@@ -35,6 +35,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import Collapse from '@material-ui/core/Collapse';
 
 import Box from '@material-ui/core/Box';
+import logo from "../images/logo_withbackground.jpg";
+import Button from "@material-ui/core/Button";
 
 const localizer = momentLocalizer(moment)
 
@@ -48,6 +50,9 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    logo: {
+        maxWidth: 160,
     },
     form: {
         width: '100%',
@@ -64,6 +69,7 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        background: '#69d0c3',
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -166,13 +172,10 @@ function UserPage () {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
-            >
-                <Toolbar>
+            <AppBar position="fixed" className={clsx(classes.appBar, {
+                [classes.appBarShift]: open,
+            })}>
+                <Toolbar className={classes.toolbar}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -182,11 +185,14 @@ function UserPage () {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" noWrap>
-                        Persistent drawer
+                    <img src={logo} alt="logo" className={classes.logo}/>
+                    <Typography variant="title" color="inherit" style={{ flex: 1 }}>
                     </Typography>
+                    {/*<Button component= {Link} to='/login' color="inherit" className={classes.rightButton}>Login</Button>*/}
+                    {/*<Button component= {Link} to='/signup' color="inherit" className={classes.rightButton}>Sign Up</Button>*/}
                 </Toolbar>
             </AppBar>
+
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
