@@ -37,6 +37,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Box from '@material-ui/core/Box';
 import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
+import UserHeader from "./UserHeader";
 
 const localizer = momentLocalizer(moment)
 
@@ -124,6 +125,13 @@ const useStyles = makeStyles(theme => ({
     centralize: {
         margin:'auto',
     },
+    centralize_calendar: {
+        marginTop: theme.spacing(20),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        margin:'auto',
+    },
     nested: {
         paddingLeft: theme.spacing(2),
     },
@@ -138,6 +146,8 @@ function UserPage () {
     const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
+    const [calendarUploaded, setCalendarUploaded] = React.useState(true);
+
     const [events, setEvents] = React.useState([
     {
         start: moment().toDate(),
@@ -152,193 +162,61 @@ function UserPage () {
     const handleDiscoverClick = () => { setDiscoverEventsOpen(!discoverEventsOpen ); };
     const handleDrawerOpen = () => { setAppBarOpen(true); };
     const handleDrawerClose = () => { setAppBarOpen(false); };
-    const user='Ilteber Ayvaci';
-
     let preventDefault;
+    let user='Ilteber Ayvaci';
     const defaultProps = {
         bgcolor: 'background.paper',
         m: 1,
         style: { width: '5rem', height: '5rem' },
         borderColor: 'text.primary',
     };
+    let calendar;
+    if(calendarUploaded) {
+        calendar = <main
+            className={clsx(classes.content, {
+                [classes.contentShift]: appBarOpen,
+            })}
+        >
+            <div className={classes.drawerHeader}>
+                <Container component="main" maxWidth="xs">
+                    You have not added your leisure times or interests yet.
+                    <Link href="#" onClick={preventDefault} >
+                        {'Click here to setup your account'}
+                    </Link>
+                </Container>
+            </div>
+        </main>
+    }
+    else {
+        calendar = <main
+            className={clsx(classes.content, {
+                [classes.contentShift]: appBarOpen,
+            })}
+        >
+            <div className={classes.drawerHeader} />
+            <Container component="main" maxWidth="xs">
+                <div >
+                    {/*<Grid item xs={12}>*/}
+
+                    <Calendar
+                        localizer={localizer}
+                        defaultDate={new Date()}
+                        defaultView="month"
+                        events={events}
+                        style={{position: "relative", height: "100vh",width: "70vh"}}
+                    />
+                    {/*</Grid>*/}
+                </div>
+
+            </Container>
+        </main>
+    }
+
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={clsx(classes.appBar, {
-                [classes.appBarShift]: appBarOpen,
-            })}>
-                <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, appBarOpen && classes.hide)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <img src={logo} alt="logo" className={classes.logo}/>
-                    <Typography variant="title" color="inherit" style={{ flex: 1 }}>
-                    </Typography>
-                    {/*<Button component= {Link} to='/login' color="inherit" className={classes.rightButton}>Login</Button>*/}
-                    {/*<Button component= {Link} to='/signup' color="inherit" className={classes.rightButton}>Sign Up</Button>*/}
-                </Toolbar>
-            </AppBar>
-
-            <Drawer
-                className={classes.drawer}
-                variant="persistent"
-                anchor="left"
-                open={appBarOpen}
-                classes={{
-                    paper: classes.drawerPaper,
-                }}
-            >
-                <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
-                </div>
-                <Divider />
-
-                <ListItem button key="avatar" alignItems>
-                    <Avatar alt={user} src="/public/calendar_icon.png" className={classes.large}/>
-                </ListItem>
-                <ListItem>
-                    <Link href="#" onClick={preventDefault} className={classes.centralize}>
-                        {user}
-                    </Link>
-                </ListItem>
-                <Divider />
-                <List>
-                    <ListItem button onClick={handleClick}>
-                        <ListItemIcon>
-                            <EventAvailableIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Upcoming Events" />
-                        {upcomingEventsOpen ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={upcomingEventsOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItem className={classes.nested}>
-                                <List>
-                                    {['Ayfer A', 'Beyfer B', 'Ceyfer C'].map((text, index) => (
-
-                                        <ListItem button alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                <Avatar alt={text} src="/static/images/avatar/3.jpg" />
-                                            </ListItemAvatar>
-
-                                            <ListItemText
-                                                primary={text}
-                                                secondary={
-                                                    <React.Fragment>
-                                                        <Typography
-                                                            component="span"
-                                                            variant="body2"
-                                                            className={classes.inline}
-                                                            color="textPrimary"
-                                                        >
-                                                            Wut {index}
-                                                        </Typography>
-                                                        {' — Weird text'}
-                                                    </React.Fragment>
-                                                }
-                                            />
-                                        </ListItem>
-
-                                    ))}
-                                </List>
-
-                            </ListItem>
-
-                        </List>
-                    </Collapse>
-
-                </List>
-                <Divider />
-                <List>
-                    <p className={classes.centralize}> Discover New Events!</p>
-                    <ListItem button onClick={handleDiscoverClick}>
-                        <ListItemIcon>
-                            <EventAvailableIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Upcoming Events" />
-                        {discoverEventsOpen ? <ExpandLess /> : <ExpandMore />}
-                    </ListItem>
-                    <Collapse in={discoverEventsOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItem className={classes.nested}>
-                                <List>
-                                    {['Ayfer A', 'Beyfer B', 'Ceyfer C'].map((text, index) => (
-
-                                        <ListItem button alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                <Avatar alt={text} src="/static/images/avatar/3.jpg" />
-                                            </ListItemAvatar>
-
-                                            <ListItemText
-                                                primary={
-                                                    index === 0 ?
-                                                        <React.Fragment>
-                                                            <Typography
-                                                                component="span"
-                                                                variant="body2"
-                                                                className={classes.inline}
-                                                                color="textPrimary"
-                                                            >
-                                                                {text}
-                                                            </Typography>
-                                                            { '  <<Sponsored>>'}
-                                                        </React.Fragment>
-                                                        : text}
-                                                secondary={
-                                                    <React.Fragment>
-                                                        <Typography
-                                                            component="span"
-                                                            variant="body2"
-                                                            className={classes.inline}
-                                                            color="textPrimary"
-                                                        >
-                                                            Wut {index}
-                                                        </Typography>
-                                                        {' — Weird text'}
-                                                    </React.Fragment>
-                                                }
-                                            />
-                                        </ListItem>
-
-                                    ))}
-                                </List>
-
-                            </ListItem>
-
-                        </List>
-                    </Collapse>
-                </List>
-            </Drawer>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: appBarOpen,
-                })}
-            >
-                <div className={classes.drawerHeader} />
-                <Container component="main" maxWidth="xs">
-                    <div >
-                        {/*<Grid item xs={12}>*/}
-
-                        <Calendar
-                            localizer={localizer}
-                            defaultDate={new Date()}
-                            defaultView="month"
-                            events={events}
-                            style={{position: "relative", height: "100vh",width: "70vh"}}
-                        />
-                        {/*</Grid>*/}
-                    </div>
-
-                </Container>
-            </main>
+            <UserHeader/>
+            {calendar}
         </div>
     );
 
