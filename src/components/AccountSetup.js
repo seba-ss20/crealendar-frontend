@@ -39,6 +39,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import {DropzoneArea} from "material-ui-dropzone";
+import UserService from "../services/UserService";
+import CalendarService from "../services/CalendarService";
 
 const useStyles = makeStyles(theme => ({
     // paper: {
@@ -109,6 +111,15 @@ const useStyles = makeStyles(theme => ({
 let calendar = null;
 function AccountSetup(props) {
 
+    async function uploadCalendar(username,calendar) {
+        try {
+            let ret = await CalendarService.uploadCalendar(username,calendar);
+            // this.props.history.push('/user');
+        } catch(err) {
+            console.error(err);
+            setUploadError(err);
+        }
+    }
     const classes = useStyles();
     let preventDefault;
     const [tags, setTags]  = React.useState(
@@ -129,6 +140,7 @@ function AccountSetup(props) {
         ]
     );
 
+    const [uploadError, setUploadError]  = React.useState('');
     const [showNearMe, setShowNearMe]  = React.useState(false);
     const [selectedTags, setSelectedTags]  = React.useState([]);
     const [calendarUploaded, setCalendarUploaded] = React.useState(false);
@@ -151,6 +163,7 @@ function AccountSetup(props) {
         setUploadDialogOpen(false);
         console.log('Operation OK');
         console.log(calendar);
+        uploadCalendar('asdasd',calendar)
         setCalendarUploaded(true);
     }
     function handleSubmit(event) {
@@ -219,7 +232,8 @@ function AccountSetup(props) {
                                 <DropzoneArea
                                     acceptedFiles={['text/calendar','text/csv']}
                                     dropzoneText={"Drag and drop a calendar here or click to select from file system"}
-                                    onChange={(files) => calendar = files}
+                                    onChange={(files) => (files.length === 1) ? calendar = files[0] : calendar = null}
+                                    filesLimit={1}
                                 />
                             </DialogContent>
                             <DialogActions>
@@ -237,7 +251,7 @@ function AccountSetup(props) {
                                 ?
                             <Typography style={{color:'green'}}>
                                 {console.log(calendar)}
-                                { 'Calendar Uploaded :' + calendar[0].name}
+                                { 'Calendar Uploaded :' + calendar.name}
                             </Typography>
                                 :
                                 <Typography style={{color:'red'}}>
