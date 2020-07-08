@@ -211,7 +211,7 @@ function UserHeader() {
                 </div>
                 <Divider />
 
-                <ListItem button key="avatar" alignItems>
+                <ListItem button alignItems>
                     <Avatar alt={user} src="/public/calendar_icon.png" className={classes.large}/>
                 </ListItem>
                 <ListItem>

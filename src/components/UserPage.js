@@ -180,7 +180,8 @@ function UserPage () {
             <div className={classes.drawerHeader}>
                 <Container component="main" maxWidth="xs">
                     You have not added your leisure times or interests yet.
-                    <Link href="#" onClick={preventDefault} >
+                    {/*<Link href="/setup" onClick={preventDefault} >*/}
+                    <Link href="/setup" onClick={preventDefault} >
                         {'Click here to setup your account'}
                     </Link>
                 </Container>
