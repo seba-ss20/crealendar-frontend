@@ -33,7 +33,6 @@ import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import Collapse from '@material-ui/core/Collapse';
-
 import Box from '@material-ui/core/Box';
 import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
