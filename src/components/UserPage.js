@@ -96,6 +96,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         padding: theme.spacing(0, 1),
+        marginTop: theme.spacing(7),
         // necessary for content to be below app bar
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
@@ -145,7 +146,7 @@ function UserPage () {
     const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
-    const [calendarUploaded, setCalendarUploaded] = React.useState(true);
+    const [calendarUploaded, setCalendarUploaded] = React.useState(false);
 
     const [events, setEvents] = React.useState([
     {
@@ -170,7 +171,7 @@ function UserPage () {
         borderColor: 'text.primary',
     };
     let calendar;
-    if(calendarUploaded) {
+    if(!calendarUploaded) {
         calendar = <main
             className={clsx(classes.content, {
                 [classes.contentShift]: appBarOpen,
@@ -179,9 +180,10 @@ function UserPage () {
             <div className={classes.drawerHeader}>
                 <Container component="main" maxWidth="xs">
                     You have not added your leisure times or interests yet.
-                    {/*<Link href="/setup" onClick={preventDefault} >*/}
-                    <Link href="/setup" onClick={preventDefault} >
-                        {'Click here to setup your account'}
+                    <Divider/>
+                {/*<Link href="/setup" onClick={preventDefault} >*/}
+                <Link href="/setup" onClick={preventDefault} >
+                    {'Click here to setup your account'}
                     </Link>
                 </Container>
             </div>
