@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import { makeStyles , useTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -37,6 +37,8 @@ import Box from '@material-ui/core/Box';
 import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
 import UserHeader from "./UserHeader";
+import UserService from "../services/UserService";
+import EventService from "../services/EventService";
 
 const localizer = momentLocalizer(moment)
 
@@ -139,14 +141,14 @@ const useStyles = makeStyles(theme => ({
 
 function UserPage (props) {
 
-
+    let user_username = 'asdasda';
     const classes = useStyles();
     const theme = useTheme();
 
     const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
-    const [calendarUploaded, setCalendarUploaded] = React.useState(false);
+    const [calendarUploaded, setCalendarUploaded] = React.useState({uploaded:false,uploadDate:''});
 
     const [events, setEvents] = React.useState([
     {
@@ -157,7 +159,38 @@ function UserPage (props) {
         title: "Some title"
     }
     ]);
+    useEffect(()=>{
+        UserService.getUser(user_username)
+            .then(response => {
+                console.log(response);
+                // setShowNearMe(response.showNearMe);
+                setCalendarUploaded(response.calendar);
 
+            });
+
+        EventService.getEvents(user_username)
+            .then(response => {
+                let event_arr = [];
+                response.map(event => {
+
+                    let start = moment(new Date(event.dateStart));
+                    let end = moment(new Date(event.dateEnd));
+                    let title = event.name;
+                    console.log('start');
+                    console.log(start);
+                    console.log('end');
+                    console.log(end);
+                    event_arr.push({
+                        start: start,
+                        end: end,
+                        title: title,
+                    })
+
+                });
+                setEvents(event_arr);
+                console.log(response);
+            });
+    },[]);
     const handleClick = () => { setUpcomingEventsOpen(!upcomingEventsOpen ); };
     const handleDiscoverClick = () => { setDiscoverEventsOpen(!discoverEventsOpen ); };
     const handleDrawerOpen = () => { setAppBarOpen(true); };
@@ -171,7 +204,7 @@ function UserPage (props) {
         borderColor: 'text.primary',
     };
     let calendar;
-    if(!calendarUploaded) {
+    if(!calendarUploaded.uploaded) {
         calendar = <main
             className={clsx(classes.content, {
                 [classes.contentShift]: appBarOpen,

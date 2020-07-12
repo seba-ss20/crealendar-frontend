@@ -179,7 +179,6 @@ function AccountSetup(props) {
     let preventDefault;
 
     useEffect(()=>{
-        // TODO :: READ USER NAME FROM SERVER AND GET USER'S SHOW NEAR ME AND SET IT
         EventTagService.listTags()
             .then(response => {
                 console.log('Getting All Tags: ');
@@ -206,7 +205,13 @@ function AccountSetup(props) {
                 console.log(tags);
                 setTags(tags);
             });
-
+        // TODO :: GET USERNAME AS PROP AND RECEIVE IT FROM SERVER TO SHOW NEAR ME AND OTHER STUFF
+        UserService.getUser(user_username)
+            .then(response => {
+                console.log(response);
+                setShowNearMe(response.showNearMe);
+                setCalendarUploaded(response.calendar);
+            });
     },[]);
     function handleShowNearMe(){
         setShowNearMe(!showNearMe);

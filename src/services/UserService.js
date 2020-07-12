@@ -66,5 +66,16 @@ export default class UserService {
             });
         });
     }
+    static getUser(username){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${baseURL}/getUser`, {
+                username: username,
+            }, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
 
 }
