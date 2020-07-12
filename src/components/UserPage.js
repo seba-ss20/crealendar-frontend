@@ -137,7 +137,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-function UserPage () {
+function UserPage (props) {
 
 
     const classes = useStyles();

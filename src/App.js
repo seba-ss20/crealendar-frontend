@@ -12,6 +12,10 @@ import AccountSetup from "./components/AccountSetup";
 
 
 class App extends Component {
+	constructor() {
+		super();
+	}
+
 	render() {
 		let routes = [
 			<Route path="/login" key="/login" component={UserLoginView} />,

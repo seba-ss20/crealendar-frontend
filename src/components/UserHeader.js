@@ -150,7 +150,7 @@ const useStyles = makeStyles(theme => ({
 //     location: PropTypes.object.isRequired,
 //     history: PropTypes.object.isRequired
 // }
-function UserHeader() {
+function UserHeader(props) {
     const classes = useStyles();
     const theme = useTheme();
 
@@ -199,7 +199,7 @@ function UserHeader() {
                     </IconButton>
                     <img src={logo} alt="logo" className={classes.logo}/>
                     <Typography variant="title" color="inherit" style={{ flex: 1 }}>
-                        CREALENDAR
+
                     </Typography>
                     {/*<Button component= {Link} to='/login' color="inherit" className={classes.rightButton}>Login</Button>*/}
                     {/*<Button component= {Link} to='/signup' color="inherit" className={classes.rightButton}>Sign Up</Button>*/}

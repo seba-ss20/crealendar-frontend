@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { withRouter } from 'react-router-dom';
@@ -42,6 +42,7 @@ import Select from '@material-ui/core/Select';
 import {DropzoneArea} from "material-ui-dropzone";
 import EventService from '../services/EventService';
 import UserService from "../services/UserService";
+import EventTagService from "../services/EventTagService";
 import {Role} from "../helpers/roles";
 import {sha256} from "js-sha256";
 
@@ -116,28 +117,20 @@ const useStyles = makeStyles(theme => ({
 }));
 let calendar = null;
 function AccountSetup(props) {
+    let account_setup_props = props;
+    // console.log('OUR USER IS');
+    // console.log(props.user);
     const [calendarUploadError, setCalendarUploadError]  = React.useState('');
     const [uploadError, setUploadError]  = React.useState('');
     const [showNearMe, setShowNearMe]  = React.useState(false);
     const [selectedTags, setSelectedTags]  = React.useState([]);
-    const [calendarUploaded, setCalendarUploaded] = React.useState(false);
+    const [calendarUploaded, setCalendarUploaded] = React.useState(
+        {uploaded:false,uploadDate: ''}
+    );
+    const user_username = 'asdasda'; // TODO :: GET FROM PROP
+
     const [uploadDialogOpen, setUploadDialogOpen] = React.useState(false);
     const [atLeastOneFileUploaded, setAtLeastOneFileUploaded] = React.useState(false);
-
-    const user_username = 'asdasda'; // TODO :: GET FROM PROP
-    async function uploadCalendar(username, events) {
-        try {
-            let ret = await EventService.uploadCalendar(username,events);
-            //TODO: remove this line after building "set the user account"
-
-        } catch(err) {
-            console.error(err);
-            setCalendarUploadError(err);
-
-        }
-    }
-    const classes = useStyles();
-    let preventDefault;
     const [tags, setTags]  = React.useState(
         [
             {key: 0, data: 'Tennis'},
@@ -155,7 +148,66 @@ function AccountSetup(props) {
             {key: 12, data: 'Software Engineering'},
         ]
     );
+    async function uploadCalendar(username, events) {
+        return await EventService.uploadCalendar(username,events);
+    }
 
+
+    async function handleSetupSave() {
+        console.log('Setting tags to :' + selectedTags);
+        await EventTagService.setTagsOfUser(user_username,selectedTags)
+            .then(response  => {
+                console.log('Tag setting for ' + user_username);
+                console.log(response);
+            })
+            .catch(reason => {
+                console.log('Tag setting failed');
+                console.log(reason);
+            });
+        await UserService.setShowNearMe(user_username,showNearMe)
+            .then(response  => {
+                console.log('Setting "show near me" for  ' + user_username);
+                console.log(response);
+            })
+            .catch(reason => {
+                console.log('Show near me failed');
+                console.log(reason);
+            });
+        account_setup_props.history.push('/user');
+    }
+    const classes = useStyles();
+    let preventDefault;
+
+    useEffect(()=>{
+        // TODO :: READ USER NAME FROM SERVER AND GET USER'S SHOW NEAR ME AND SET IT
+        EventTagService.listTags()
+            .then(response => {
+                console.log('Getting All Tags: ');
+                console.log(response);
+            });
+        EventTagService.getTagsOfUser(user_username)
+            .then(response => {
+                console.log('Getting Tags of the user');
+                console.log(response[0].tags);
+                console.log(tags);
+                let userSelectedTags = response[0].tags
+                let sTags = []
+                userSelectedTags.map((tag,idx)=> {
+                    tags.map((_t,_i) =>
+                    {
+                            if (_t.data === tag) {
+                                sTags.push(_t);
+                                tags.splice(_i, 1);
+                            }
+                    });
+                });
+                setSelectedTags(sTags);
+                console.log('tags');
+                console.log(tags);
+                setTags(tags);
+            });
+
+    },[]);
     function handleShowNearMe(){
         setShowNearMe(!showNearMe);
     }
@@ -171,7 +223,7 @@ function AccountSetup(props) {
         console.log(calendar);
     }
 
-    function handleDialogCloseOK(){
+    async function handleDialogCloseOK() {
         setUploadDialogOpen(false);
         console.log('Operation OK');
         console.log(calendar);
@@ -185,7 +237,7 @@ function AccountSetup(props) {
         //
         // console.log(allEvents.map(e => `${e.startDate.toJSDate().toISOString()} - ${e.summary}`).join('\n'));
         var reader = new FileReader();
-        reader.onload = function(progressEvent){
+        reader.onload = function (progressEvent) {
             // Entire file
             // return this.result;
             console.log(this.result);
@@ -344,7 +396,7 @@ function AccountSetup(props) {
         var vevents = comp.getAllSubcomponents('vevent');
         console.log(vevents);
         let crealendar_events = [];
-        vevents.map((vevent)=> {
+        vevents.map((vevent) => {
             let crealendar_event = {}
             console.log('DTSTART');
             let ical_dtstart = vevent.getFirstPropertyValue('dtstart');
@@ -353,14 +405,14 @@ function AccountSetup(props) {
             crealendar_event.dateEnd = ICAL.design.icalendar.value['date-time'].undecorate(ical_dtend);
             let ical_created = vevent.getFirstPropertyValue('created');
             crealendar_event.created = ICAL.design.icalendar.value['date-time'].undecorate(ical_created);
-            crealendar_event.name= vevent.getFirstPropertyValue('summary');
-            crealendar_event.location= vevent.getFirstPropertyValue('location');
-            crealendar_event.description= vevent.getFirstPropertyValue('description');
-            crealendar_event.status= vevent.getFirstPropertyValue('status');
+            crealendar_event.name = vevent.getFirstPropertyValue('summary');
+            crealendar_event.location = vevent.getFirstPropertyValue('location');
+            crealendar_event.description = vevent.getFirstPropertyValue('description');
+            crealendar_event.status = vevent.getFirstPropertyValue('status');
             crealendar_event.owner = user_username; // TODO:: Fix this part, get it from props
-            crealendar_event.eventID = sha256(crealendar_event.created+''+crealendar_event.owner);
+            crealendar_event.eventID = sha256(crealendar_event.created + '' + crealendar_event.owner);
             let ical_recur = vevent.getFirstPropertyValue('rrule');
-            if(ical_recur !== null && ical_recur !== undefined ){
+            if (ical_recur !== null && ical_recur !== undefined) {
                 console.log(ical_recur);
 
                 crealendar_event.recurrence = ICAL.design.icalendar.value['recur'].undecorate(ical_recur); // Returns { freq: "WEEKLY", count: 2 }
@@ -369,9 +421,14 @@ function AccountSetup(props) {
             }
             crealendar_events.push(crealendar_event);
         });
-        uploadCalendar(user_username,crealendar_events);
+        await uploadCalendar(user_username, crealendar_events)
+            .then(response  => {
+                setCalendarUploaded(response.calendar)
+                console.log(response);
+            });
+            // .catch((err) => console.log('ERR' + err));
         // uploadCalendar(user_username,calendar)
-        setCalendarUploaded(true);
+        // setCalendarUploaded(true);
     }
     function handleSubmit(event) {
         event.preventDefault();
@@ -411,7 +468,7 @@ function AccountSetup(props) {
                 sTags.push(tag);
             }
             else{
-                tags.push(data);
+                tags.unshift(data);
             }
         });
         setSelectedTags(sTags);
@@ -470,11 +527,11 @@ function AccountSetup(props) {
                         </Dialog>
 
                         {
-                            calendarUploaded
+                            calendarUploaded['uploaded']
                                 ?
                             <Typography style={{color:'green'}}>
                                 {console.log(calendar)}
-                                { 'Calendar Uploaded :' + calendar.name}
+                                { 'Calendar Uploaded : ' + calendarUploaded['uploadDate']}
                             </Typography>
                                 :
                                 <Typography style={{color:'red'}}>
@@ -539,24 +596,26 @@ function AccountSetup(props) {
                                 label="Only show me events near me"
                             />
                         </Typography>
-                        <Button
-                            variant="contained"
-                            color="default"
-                            href={'/user'}
-                            className={classes.button}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-
-                            className={classes.button}
-                            startIcon={<SaveIcon />}
-                        >
-                            Save
-                        </Button>
+                        <div>
+                            <Button
+                                variant="contained"
+                                color="default"
+                                href={'/user'}
+                                className={classes.button}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                onClick={handleSetupSave}
+                                className={classes.button}
+                                startIcon={<SaveIcon />}
+                            >
+                                Save
+                            </Button>
+                        </div>
                     </div>
                 </Grid>
             </Grid>
