@@ -19,14 +19,17 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import SettingsIcon from '@material-ui/icons/Settings';
 import Avatar from '@material-ui/core/Avatar';
+import EventIcon from '@material-ui/icons/Event';
 import Link from '@material-ui/core/Link';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-
+import Badge from '@material-ui/core/Badge';
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Calendar,momentLocalizer} from 'react-big-calendar';
 // import 'react-calendar/dist/Calendar.css'
 import moment from 'moment'
@@ -37,7 +40,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Box from '@material-ui/core/Box';
 import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 const localizer = momentLocalizer(moment)
 
 
@@ -134,6 +137,12 @@ const useStyles = makeStyles(theme => ({
     nested: {
         paddingLeft: theme.spacing(2),
     },
+    sectionDesktop: {
+        display: 'none',
+        [theme.breakpoints.up('md')]: {
+            display: 'flex',
+        },
+    },
 }));
 
 // const propTypes = {
@@ -165,6 +174,7 @@ function UserHeader() {
     const handleDrawerOpen = () => { setAppBarOpen(true); };
     const handleDrawerClose = () => { setAppBarOpen(false); };
     let preventDefault;
+    const menuId = 'primary-search-account-menu';
     let user='Ilteber Ayvaci';
     const defaultProps = {
         bgcolor: 'background.paper',
@@ -189,9 +199,43 @@ function UserHeader() {
                     </IconButton>
                     <img src={logo} alt="logo" className={classes.logo}/>
                     <Typography variant="title" color="inherit" style={{ flex: 1 }}>
+                        CREALENDAR
                     </Typography>
                     {/*<Button component= {Link} to='/login' color="inherit" className={classes.rightButton}>Login</Button>*/}
                     {/*<Button component= {Link} to='/signup' color="inherit" className={classes.rightButton}>Sign Up</Button>*/}
+                    <div className={classes.sectionDesktop}>
+                        <IconButton aria-label="show 4 new mails" color="inherit">
+                            <Badge badgeContent={4} color="secondary">
+                                <MailIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton aria-label="show 17 new notifications" color="inherit">
+                            <Badge badgeContent={17} color="secondary">
+                                <NotificationsIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton aria-label="show 2 new events" color="inherit">
+                            <Badge badgeContent={2} color="secondary">
+                                <EventIcon />
+                            </Badge>
+                        </IconButton>
+                        <IconButton
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            // onClick={}//handleProfileMenuOpen
+                            color="inherit"
+                        >
+                            <AccountCircle />
+                        </IconButton>
+                        <IconButton aria-label="show 4 new mails" color="inherit">
+                            <SettingsIcon />
+                        </IconButton>
+                        <IconButton color="inherit">
+                            <ExitToAppIcon/>
+                        </IconButton>
+                    </div>
                 </Toolbar>
             </AppBar>
 
