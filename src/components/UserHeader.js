@@ -41,6 +41,7 @@ import Box from '@material-ui/core/Box';
 import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import UserService from "../services/UserService";
 const localizer = momentLocalizer(moment)
 
 
@@ -151,6 +152,7 @@ const useStyles = makeStyles(theme => ({
 //     history: PropTypes.object.isRequired
 // }
 function UserHeader(props) {
+
     const classes = useStyles();
     const theme = useTheme();
 
@@ -182,6 +184,12 @@ function UserHeader(props) {
         style: { width: '5rem', height: '5rem' },
         borderColor: 'text.primary',
     };
+
+    function logout() {
+        UserService.logout();
+        props.history.push('/');
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={clsx(classes.appBar, {
@@ -232,7 +240,10 @@ function UserHeader(props) {
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <SettingsIcon />
                         </IconButton>
-                        <IconButton color="inherit">
+                        <IconButton
+                            color="inherit"
+                            onClick={logout}
+                        >
                             <ExitToAppIcon/>
                         </IconButton>
                     </div>

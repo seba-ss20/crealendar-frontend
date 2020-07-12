@@ -1,7 +1,7 @@
 import HttpService from './HttpService';
 import {baseURL} from '../config';
 
-export default class UserService {
+export default class CalendarView {
     constructor() {
     }
     static uploadCalendar(user, calendar) {
