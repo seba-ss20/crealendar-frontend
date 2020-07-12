@@ -61,19 +61,23 @@ export default class HttpService {
         // });
     }
 
-    static async put(url, data, onSuccess, onError) {
+    static async put(url, data, onSuccess, onError, mime='application/json') {
         let token = window.localStorage['jwtToken'];
         let header = new Headers();
         if(token) {
             header.append('Authorization', `JWT ${token}`);
         }
-        header.append('Content-Type', 'application/json');
-
+        header.append('Content-Type', mime);
+        let bodyData = data;
+        if(mime.includes('json'))
+        {
+            bodyData = JSON.stringify(bodyData);
+        }
         try {
             let resp = await fetch(url, {
                 method: 'PUT',
                 headers: header,
-                body: JSON.stringify(data)
+                body: bodyData
             });
 
             if(this.checkIfUnauthorized(resp)) {
@@ -98,19 +102,23 @@ export default class HttpService {
         }
     }
 
-    static async post(url, data, onSuccess, onError) {
+    static async post(url, data, onSuccess, onError, mime='application/json') {
         let token = window.localStorage['jwtToken'];
         let header = new Headers();
         if(token) {
             header.append('Authorization', `JWT ${token}`);
         }
-        header.append('Content-Type', 'application/json');
-
+        header.append('Content-Type', mime);
+        let bodyData = data;
+        if(mime.includes('json'))
+        {
+            bodyData = JSON.stringify(bodyData);
+        }
         try {
             let resp = await fetch(url, {
                 method: 'POST',
                 headers: header,
-                body: JSON.stringify(data)
+                body: bodyData
             });
 
             if(this.checkIfUnauthorized(resp)) {

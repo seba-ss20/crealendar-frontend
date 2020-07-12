@@ -54,4 +54,28 @@ export default class UserService {
     static isAuthenticated() {
         return !!window.localStorage['jwtToken'];
     }
+    static setShowNearMe(username,nearme){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${baseURL}/nearme`, {
+                username: username,
+                near_me: nearme
+            }, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
+    static getUser(username){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${baseURL}/getUser`, {
+                username: username,
+            }, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
+
 }

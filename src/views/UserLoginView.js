@@ -4,6 +4,8 @@ import React from 'react';
 import Login from '../components/Login'
 import UserService from '../services/UserService';
 import {Role} from '../helpers/roles';
+import Header from "../components/Header";
+import {Router, Switch} from "react-router-dom";
 
 
 export class UserLoginView extends React.Component {
@@ -35,7 +37,10 @@ export class UserLoginView extends React.Component {
 
     render() {
         return (
-            <Login login={(username, password) => this.login(username,password)} loginError={this.state.error}></Login>
+            <div>
+                <Header/>
+                <Login login={(username, password) => this.login(username,password)} loginError={this.state.error}></Login>
+            </div>
     );
     }
 }
