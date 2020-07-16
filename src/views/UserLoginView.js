@@ -4,6 +4,7 @@ import UserService from '../services/UserService';
 import {Role} from '../helpers/roles';
 import Header from "../components/Header";
 import {Router, Switch} from "react-router-dom";
+import ls from 'local-storage'
 
 
 export class UserLoginView extends React.Component {
@@ -18,13 +19,14 @@ export class UserLoginView extends React.Component {
     async login(username, password) {
         try {
             let ret = await UserService.login(username, password);
+            ls.set('userObject', ret['user']);
+            console.log(ls.get('userObject'));
             if (ret['role'] === Role.Organizer){
                 this.props.history.push('/organizer');
             }
             else if(ret['role'] === Role.User){
                 this.props.history.push('/user');
             }
-            //TODO: remove this line after building "set the user account"
         } catch(err) {
             console.error(err);
             this.setState({

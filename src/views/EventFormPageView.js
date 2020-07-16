@@ -1,6 +1,7 @@
 import EventFormPage from '../components/EventFormPage'
 import EventService from '../services/EventService';
 import React from 'react';
+import ls from 'local-storage'
 
 
 export class EventFormPageView extends React.Component {
@@ -46,8 +47,8 @@ export class EventFormPageView extends React.Component {
     async updateEvent(event) {
         if(this.state.event === undefined) {
             try {
-                //TODO: pass userObject
-                let userId = "5f0f7bd81957a912e83a5cbf"
+                let user = ls.get('userObject');
+                let userId = user['_id'];
                 event.owner = userId;
                 let ret = await EventService.createEvent(userId,event);
                 this.props.history.push('/organizer');

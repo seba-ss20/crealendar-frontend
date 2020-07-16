@@ -10,6 +10,7 @@ import OrganizerPage from "./components/OrganizerPage";
 import Welcome from "./components/Welcome";
 import AccountSetup from "./components/AccountSetup";
 import {EventFormPageView} from "./views/EventFormPageView";
+import ls from 'local-storage'
 
 
 class App extends Component {
