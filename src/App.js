@@ -9,6 +9,7 @@ import UserPage from './components/UserPage'
 import OrganizerPage from "./components/OrganizerPage";
 import Welcome from "./components/Welcome";
 import AccountSetup from "./components/AccountSetup";
+import {EventFormPageView} from "./views/EventFormPageView";
 
 
 class App extends Component {
@@ -22,6 +23,8 @@ class App extends Component {
 			<Route path="/signup" key="/signup" component={UserSignupView} />,
 			<Route path="/user" key="/user" component={UserPage} />,
 			<Route path="/setup" key="/setup" component={AccountSetup} />,
+			<Route path="/createEvent" key="/createEvent" component={EventFormPageView} />,
+			<Route path="/edit/:id" key="/editEvent" render={(props) => <EventFormPageView {...props} /> }/>,
 			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];

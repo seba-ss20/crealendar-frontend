@@ -1,7 +1,5 @@
-"use strict";
-
 import HttpService from './HttpService';
-import {apiURL,baseURL} from '../config';
+import {eventURL} from '../config';
 
 
 export default class EventService {
@@ -12,7 +10,7 @@ export default class EventService {
     static uploadCalendar(username, events ) {
 
         return new Promise((resolve, reject) => {
-            HttpService.post(`${apiURL}/event/${username}`, {
+            HttpService.post(`${eventURL}/${username}`, {
                 username: username,
                 events: {events},
             }, function(data) {
@@ -24,7 +22,7 @@ export default class EventService {
     }
     static getEvents(username){
         return new Promise((resolve, reject) => {
-            HttpService.get(`${apiURL}/event/${username}`, function(data) {
+            HttpService.get(`${eventURL}/${username}`, function(data) {
                 resolve(data);
             }, function(textStatus) {
                 reject(textStatus);
@@ -32,9 +30,9 @@ export default class EventService {
         });
     }
 
-    static getEvent(username,id) {
+    static getEvent(eventId) {
         return new Promise((resolve, reject) => {
-            HttpService.get(`${apiURL}/event/${username}/${id}`, function(data) {
+            HttpService.get(`${eventURL}/${eventId}`, function(data) {
                 if(data != undefined || Object.keys(data).length !== 0) {
                     resolve(data);
                 }
@@ -47,9 +45,9 @@ export default class EventService {
         });
     }
 
-    static deleteEvent(username,id) {
+    static deleteEvent(id) {
         return new Promise((resolve, reject) => {
-            HttpService.remove(`${apiURL}/event/${username}/${id}`, function(data) {
+            HttpService.remove(`${eventURL}/${id}`, function(data) {
                 if(data.message !== undefined) {
                     resolve(data.message);
                 }
@@ -62,9 +60,9 @@ export default class EventService {
         });
     }
 
-    static updateEvent(username,event) {
+    static updateEvent(event) {
         return new Promise((resolve, reject) => {
-            HttpService.put(`${apiURL}/event/${username}/${event.id}`,event, function(data) {
+            HttpService.put(`${eventURL}/users/events/${event._id}`,event, function(data) {
                 resolve(data);
             }, function(textStatus) {
                 reject(textStatus);
@@ -72,9 +70,19 @@ export default class EventService {
         });
     }
 
-    static createEvent(username,event) {
+    static createEvent(userId,event) {
         return new Promise((resolve, reject) => {
-            HttpService.post(`${apiURL}/event/${username}/${event.id}`, event, function(data) {
+            HttpService.post(`${eventURL}/users/${userId}/addEvent`, event, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
+
+    static getEventsByOwnerId(userId) {
+        return new Promise((resolve, reject) => {
+            HttpService.get(`${eventURL}/users/${userId}`, function(data) {
                 resolve(data);
             }, function(textStatus) {
                 reject(textStatus);

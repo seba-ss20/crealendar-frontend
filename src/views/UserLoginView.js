@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import Login from '../components/Login'
 import UserService from '../services/UserService';
