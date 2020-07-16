@@ -42,6 +42,7 @@ function Signup(props) {
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [switchChecked, setSwitchChecked] = useState(false);
     const [userRole, setUserRole] = useState("");
+
 	
 	function handleSubmit(event) {
         event.preventDefault();
@@ -49,9 +50,16 @@ function Signup(props) {
         password.length > 0 ? setPasswordError("") : setPasswordError("Passwort is empty");
 		confirmPassword.length > 0 ? setConfirmPasswordError("") : setConfirmPasswordError("Passwort is empty");
 		switchChecked ? setUserRole("Organizer") : setUserRole("User")
+        const calendar = {
+            uploaded: false,
+            uploadDate: ""
+        };
+        const tags = [];
+        const eventList = [];
+        const showNearMe = false;
 
         if (username.length > 0 && password.length > 0 && confirmPassword.length > 0 && password.localeCompare(confirmPassword) === 0)
-            props.signup(username, password, userRole);
+            props.signup(username, password, userRole, calendar, tags, showNearMe, eventList);
 		else {
 		    setConfirmPasswordError("Passwords do not match.")
 		}

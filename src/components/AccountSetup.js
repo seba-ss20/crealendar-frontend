@@ -5,40 +5,21 @@ import { withRouter } from 'react-router-dom';
 import Chip from '@material-ui/core/Chip';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import FormGroup from '@material-ui/core/FormGroup';
-import RecurrenceType from '../helpers/RecurrenceEnum'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Link from "@material-ui/core/Link";
 import UserHeader from "./UserHeader";
 import Paper from "@material-ui/core/Paper";
-import IcalExpander from 'ical-expander';
-import coverPic from "../images/welcome_picture.jpg";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
-import Box from "@material-ui/core/Box";
 import SaveIcon from "@material-ui/icons/Save";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import Divider from "@material-ui/core/Divider";
-import BusinessIcon from "@material-ui/icons/Business";
 import PublishIcon from '@material-ui/icons/Publish';
 import IconButton from '@material-ui/core/IconButton';
 import ICAL from 'ical.js';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import InputLabel from '@material-ui/core/InputLabel';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import {DropzoneArea} from "material-ui-dropzone";
 import EventService from '../services/EventService';
 import UserService from "../services/UserService";
@@ -486,7 +467,7 @@ function AccountSetup(props) {
             <CssBaseline />
             <UserHeader/>
             <Grid container spacing={3}>
-                <Grid item xs={12}>
+                <Grid item xs={11}>
                     <div className={classes.paperTop} >
                         <h1>Event Preferences</h1>
                         <Divider flexItem/>

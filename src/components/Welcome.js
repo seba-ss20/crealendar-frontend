@@ -8,13 +8,11 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import CardGiftcardIcon from '@material-ui/icons/CardGiftcard';
 import BusinessIcon from '@material-ui/icons/Business';
 import Box from '@material-ui/core/Box';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import coverPic from '../images/welcome_picture.jpg';
-import logo from "../images/logo_withbackground.jpg";
 
 const useStyles = makeStyles((theme) => ({
 
