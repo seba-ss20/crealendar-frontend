@@ -9,7 +9,6 @@ import OrganizerHeader from "./OrganizerHeader";
 import {EventListView} from "../views/EventListView";
 import Typography from "@material-ui/core/Typography";
 
-//TODO: remove this line after building "set the organizer account"
 
 const useStyles = makeStyles(theme => ({
     root: {

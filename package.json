@@ -14,6 +14,7 @@
     "ical-expander": "^3.0.0",
     "ical.js": "^1.4.0",
     "js-sha256": "^0.9.0",
+    "local-storage": "^2.0.0",
     "material-ui-dropzone": "^3.3.0",
     "moment": "^2.27.0",
     "react": "^16.13.1",

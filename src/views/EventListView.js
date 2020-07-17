@@ -1,6 +1,7 @@
 import React from 'react';
 import { EventList } from '../components/EventList';
 import EventService from '../services/EventService';
+import ls from 'local-storage'
 
 export class EventListView extends React.Component {
 
@@ -17,9 +18,8 @@ export class EventListView extends React.Component {
         this.setState({
             loading: true
         });
-        //TODO: pass user object
-        let userId = "5f0f7bd81957a912e83a5cbf";
-        EventService.getEventsByOwnerId(userId).then((data) => {
+        let user = ls.get('userObject');
+        EventService.getEventsByOwnerId(user['_id']).then((data) => {
             this.setState({
                 data: [...data],
                 loading: false

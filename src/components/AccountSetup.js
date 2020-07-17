@@ -26,6 +26,7 @@ import UserService from "../services/UserService";
 import EventTagService from "../services/EventTagService";
 import {Role} from "../helpers/roles";
 import {sha256} from "js-sha256";
+import ls from 'local-storage'
 
 // TODO:: ON EMAIL CHANGE, Change ID of all events as well.
 // TODO:: Disable OK Button of calendar upload if there is no item uploaded.
@@ -107,7 +108,8 @@ function AccountSetup(props) {
     const [calendarUploaded, setCalendarUploaded] = React.useState(
         {uploaded:false,uploadDate: ''}
     );
-    const user_username = 'asdasda'; // TODO :: GET FROM PROP
+    let user = ls.get('userObject');
+    const user_username = user['username']; // TODO :: GET FROM PROP
 
     const [uploadDialogOpen, setUploadDialogOpen] = React.useState(false);
     const [atLeastOneFileUploaded, setAtLeastOneFileUploaded] = React.useState(false);

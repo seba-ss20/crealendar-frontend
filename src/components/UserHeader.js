@@ -41,7 +41,7 @@ import Box from '@material-ui/core/Box';
 import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import UserService from "../services/UserService";
+import ls from 'local-storage';
 const localizer = momentLocalizer(moment)
 
 
@@ -152,7 +152,6 @@ const useStyles = makeStyles(theme => ({
 //     history: PropTypes.object.isRequired
 // }
 function UserHeader(props) {
-
     const classes = useStyles();
     const theme = useTheme();
 
@@ -177,19 +176,13 @@ function UserHeader(props) {
     const handleDrawerClose = () => { setAppBarOpen(false); };
     let preventDefault;
     const menuId = 'primary-search-account-menu';
-    let user='Ilteber Ayvaci';
+    let user=ls.get('userObject');
     const defaultProps = {
         bgcolor: 'background.paper',
         m: 1,
         style: { width: '5rem', height: '5rem' },
         borderColor: 'text.primary',
     };
-
-    function logout() {
-        UserService.logout();
-        props.history.push('/');
-    }
-
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={clsx(classes.appBar, {
@@ -240,10 +233,7 @@ function UserHeader(props) {
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <SettingsIcon />
                         </IconButton>
-                        <IconButton
-                            color="inherit"
-                            onClick={logout}
-                        >
+                        <IconButton color="inherit">
                             <ExitToAppIcon/>
                         </IconButton>
                     </div>
@@ -267,11 +257,11 @@ function UserHeader(props) {
                 <Divider />
 
                 <ListItem button alignItems>
-                    <Avatar alt={user} src="/public/calendar_icon.png" className={classes.large}/>
+                    <Avatar alt={user['username']} src="/public/calendar_icon.png" className={classes.large}/>
                 </ListItem>
                 <ListItem>
                     <Link href="#" onClick={preventDefault} className={classes.centralize}>
-                        {user}
+                        {user['username']}
                     </Link>
                 </ListItem>
                 <Divider />

@@ -37,6 +37,7 @@ import Button from "@material-ui/core/Button";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import UserService from "../services/UserService";
+import ls from 'local-storage';
 
 const drawerWidth = 300;
 
@@ -164,7 +165,7 @@ function OrganizerHeader(props) {
     };
     let preventDefault;
     const menuId = 'primary-search-account-menu';
-    let user='organizer_name';
+    let user=ls.get('userObject');
 
     return (
         <div className={classes.root}>
@@ -238,11 +239,11 @@ function OrganizerHeader(props) {
                 <Divider />
 
                 <ListItem button alignItems>
-                    <Avatar alt={user} src="/public/calendar_icon.png" className={classes.large}/>
+                    <Avatar alt={user['username']} src="/public/calendar_icon.png" className={classes.large}/>
                 </ListItem>
                 <ListItem>
                     <Link href="#" onClick={preventDefault} className={classes.centralize}>
-                        {user}
+                        {user['username']}
                     </Link>
                 </ListItem>
                 <Divider />
