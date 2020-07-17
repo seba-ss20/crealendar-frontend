@@ -7,6 +7,7 @@ import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import Button from '@material-ui/core/Button';
 import OrganizerHeader from "./OrganizerHeader";
 import {EventListView} from "../views/EventListView";
+import {PromotionListView} from "../views/PromotionListView";
 import Typography from "@material-ui/core/Typography";
 
 
@@ -61,6 +62,31 @@ function OrganizerPage (props) {
                             </TableContainer>
 
                         <EventListView />
+                        </div>
+                </Grid>
+				<Grid item xs={11} >
+                        <div className={classes.paperTop}>
+                            <TableContainer>
+                                <Table aria-label="simple table">
+                                    <TableHead>
+                                        <TableCell>
+                                            <Typography variant="h5" > My Promotions</Typography>
+                                        </TableCell>
+                                        <TableCell align='right'>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                endIcon={<PlaylistAddIcon/>}
+                                                onClick={handleOnClick}
+                                            >
+                                                Create Promotions
+                                            </Button>
+                                        </TableCell>
+                                    </TableHead>
+                                </Table>
+                            </TableContainer>
+
+                        <PromotionListView />
                         </div>
                 </Grid>
             </Grid>
