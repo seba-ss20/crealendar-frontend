@@ -21,7 +21,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Divider from "@material-ui/core/Divider";
 
 // google maps component
-import GoogleMapReact from 'google-map-react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 import AddFriendsDialog from './AddFriendsDialog'
