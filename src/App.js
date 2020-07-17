@@ -27,7 +27,7 @@ class App extends Component {
 			<Route path="/createEvent" key="/createEvent" component={EventFormPageView} />,
 			<Route path="/edit/:id" key="/editEvent" render={(props) => <EventFormPageView {...props} /> }/>,
 			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
-			<Route path="/events/:id" key="/events" component={EventPage} />
+			<Route path="/events/:id" key="/events" component={EventPage} />,
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		
