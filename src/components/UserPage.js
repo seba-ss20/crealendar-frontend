@@ -250,7 +250,7 @@ function UserPage (props) {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <UserHeader/>
+            <UserHeader history={props.history}/>
             {calendar}
         </div>
     );

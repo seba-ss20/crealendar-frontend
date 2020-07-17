@@ -99,7 +99,6 @@ const useStyles = makeStyles(theme => ({
 }));
 let calendar = null;
 function AccountSetup(props) {
-    let account_setup_props = props;
     // console.log('OUR USER IS');
     // console.log(props.user);
     const [calendarUploadError, setCalendarUploadError]  = React.useState('');
@@ -156,7 +155,7 @@ function AccountSetup(props) {
                 console.log('Show near me failed');
                 console.log(reason);
             });
-        account_setup_props.history.push('/user');
+        props.history.push('/user');
     }
     const classes = useStyles();
     let preventDefault;
@@ -467,7 +466,7 @@ function AccountSetup(props) {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <UserHeader/>
+            <UserHeader history={props.history}/>
             <Grid container spacing={3}>
                 <Grid item xs={11}>
                     <div className={classes.paperTop} >
