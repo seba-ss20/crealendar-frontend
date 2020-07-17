@@ -20,9 +20,9 @@ export default class EventService {
             });
         });
     }
-    static getEvents(username){
+    static getEvents(userId){
         return new Promise((resolve, reject) => {
-            HttpService.get(`${eventURL}/${username}`, function(data) {
+            HttpService.get(`${eventURL}/users/${userId}`, function(data) {
                 resolve(data);
             }, function(textStatus) {
                 reject(textStatus);

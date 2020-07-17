@@ -39,6 +39,7 @@ import Button from "@material-ui/core/Button";
 import UserHeader from "./UserHeader";
 import UserService from "../services/UserService";
 import EventService from "../services/EventService";
+import ls from 'local-storage';
 
 const localizer = momentLocalizer(moment)
 
@@ -141,7 +142,8 @@ const useStyles = makeStyles(theme => ({
 
 function UserPage (props) {
 
-    let user_username = 'asdasda';
+    let user = ls.get('userObject');
+    let user_username = user['username'];
     const classes = useStyles();
     const theme = useTheme();
 
@@ -168,7 +170,7 @@ function UserPage (props) {
 
             });
 
-        EventService.getEvents(user_username)
+        EventService.getEvents(user['_id'])
             .then(response => {
                 let event_arr = [];
                 response.map(event => {
@@ -196,7 +198,6 @@ function UserPage (props) {
     const handleDrawerOpen = () => { setAppBarOpen(true); };
     const handleDrawerClose = () => { setAppBarOpen(false); };
     let preventDefault;
-    let user='Ilteber Ayvaci';
     const defaultProps = {
         bgcolor: 'background.paper',
         m: 1,

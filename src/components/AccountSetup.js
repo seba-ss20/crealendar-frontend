@@ -109,7 +109,7 @@ function AccountSetup(props) {
         {uploaded:false,uploadDate: ''}
     );
     let user = ls.get('userObject');
-    const user_username = user['username']; // TODO :: GET FROM PROP
+    const user_username = user['username'];
 
     const [uploadDialogOpen, setUploadDialogOpen] = React.useState(false);
     const [atLeastOneFileUploaded, setAtLeastOneFileUploaded] = React.useState(false);
@@ -396,8 +396,9 @@ function AccountSetup(props) {
             crealendar_event.location = vevent.getFirstPropertyValue('location');
             crealendar_event.description = vevent.getFirstPropertyValue('description');
             crealendar_event.status = vevent.getFirstPropertyValue('status');
-            crealendar_event.owner = user_username; // TODO:: Fix this part, get it from props
-            crealendar_event.eventID = sha256(crealendar_event.created + '' + crealendar_event.owner);
+            crealendar_event.owner = user['_id'];
+            let id = sha256(crealendar_event.created + '' + crealendar_event.owner)
+            crealendar_event._id = id.substring(0, 24);
             let ical_recur = vevent.getFirstPropertyValue('rrule');
             if (ical_recur !== null && ical_recur !== undefined) {
                 console.log(ical_recur);
