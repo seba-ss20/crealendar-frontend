@@ -4,6 +4,7 @@ import EventDetail from './EventDetail'
 //import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import {eventPageURL} from '../../config';
 
 
 
@@ -28,8 +29,8 @@ class EventPage extends Component<Props, State> {
 	componentDidMount() {
         //this.getEventData();
 		//const match = this.props;
-		const id = "5ef8a9626d39d91c4c6d8034"//match.params.id;
-		axios.get('http://localhost:3001/events', { params: {"_id":id} }).then(response => {
+		const id = "5f10a7349657c73248d9d01a"//match.params.id;
+		axios.get(eventPageURL + '/events', { params: {"_id":id} }).then(response => {
 			//console.log(response.data)
 			//console.log(res.data)
 			//let data = res.data
