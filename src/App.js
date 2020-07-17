@@ -4,11 +4,11 @@ import Header from './components/Header'
 import {UserLoginView} from './views/UserLoginView'
 import {UserSignupView} from './views/UserSignupView'
 import history from './router/history';
-import { goToLoginPage } from './router/functions'
 import UserPage from './components/UserPage'
 import OrganizerPage from "./components/OrganizerPage";
 import Welcome from "./components/Welcome";
 import AccountSetup from "./components/AccountSetup";
+import EventPage from "./components/EventPage/EventPage";
 import {EventFormPageView} from "./views/EventFormPageView";
 import ls from 'local-storage'
 
@@ -27,6 +27,7 @@ class App extends Component {
 			<Route path="/createEvent" key="/createEvent" component={EventFormPageView} />,
 			<Route path="/edit/:id" key="/editEvent" render={(props) => <EventFormPageView {...props} /> }/>,
 			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
+			<Route path="/events/:id" key="/events" component={EventPage} />
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		
