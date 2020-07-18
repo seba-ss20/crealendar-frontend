@@ -46,6 +46,18 @@ export default class EventService {
             });
         });
     }
+	static addTagsToPromotion(promotionID, tags){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${apiURL}/tag/${promotionID}`,{
+                promotion_id: promotionID,
+                tags: {tags}
+            }, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
 
     static getTagsOfUser(username) {
         return new Promise((resolve, reject) => {
@@ -68,7 +80,21 @@ export default class EventService {
                     resolve(data);
                 }
                 else {
-                    reject('Error while retrieving event');
+                    reject('Error while retrieving promotion');
+                }
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
+	static getTagsOfPromotion(promotion_id) {
+        return new Promise((resolve, reject) => {
+            HttpService.get(`${apiURL}/tag/${promotion_id}`, function(data) {
+                if(data !== undefined || Object.keys(data).length !== 0) {
+                    resolve(data);
+                }
+                else {
+                    reject('Error while retrieving promotion');
                 }
             }, function(textStatus) {
                 reject(textStatus);
@@ -102,6 +128,16 @@ export default class EventService {
         });
     }
     //TODO::
+    static deleteTagFromEvent(tag) {
+        // return new Promise((resolve, reject) => {
+        //     HttpService.remove(`${apiURL}/event/${username}/${event.id}`,event, function(data) {
+        //         resolve(data);
+        //     }, function(textStatus) {
+        //         reject(textStatus);
+        //     });
+        // });
+    }
+	//TODO::
     static deleteTagFromEvent(tag) {
         // return new Promise((resolve, reject) => {
         //     HttpService.remove(`${apiURL}/event/${username}/${event.id}`,event, function(data) {

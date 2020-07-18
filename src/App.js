@@ -10,6 +10,7 @@ import Welcome from "./components/Welcome";
 import AccountSetup from "./components/AccountSetup";
 import EventPage from "./components/EventPage/EventPage";
 import {EventFormPageView} from "./views/EventFormPageView";
+import {PromotionFormPageView} from "./views/PromotionFormPageView";
 import ls from 'local-storage'
 
 
@@ -28,6 +29,8 @@ class App extends Component {
 			<Route path="/edit/:id" key="/editEvent" render={(props) => <EventFormPageView {...props} /> }/>,
 			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
 			<Route path="/events/:id" key="/events" component={EventPage} />,
+			<Route path="/createPromotion" key="/createPromotion" component={PromotionFormPageView} />,
+			<Route path="/edit/:id" key="/editPromotion" render={(props) => <PromotionFormPageView {...props} /> }/>,
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		

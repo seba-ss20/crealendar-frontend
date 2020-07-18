@@ -34,6 +34,11 @@ function OrganizerPage (props) {
         event.preventDefault();
         props.history.push('/createEvent');
     }
+	
+	function _handleOnClick (event) {
+        event.preventDefault();
+        props.history.push('/createPromotion');
+    }
 
     return (
         <div className={classes.root}>
@@ -77,9 +82,9 @@ function OrganizerPage (props) {
                                                 variant="contained"
                                                 color="primary"
                                                 endIcon={<PlaylistAddIcon/>}
-                                                onClick={handleOnClick}
+                                                onClick={_handleOnClick}
                                             >
-                                                Create Promotions
+                                                Create Promotion
                                             </Button>
                                         </TableCell>
                                     </TableHead>
