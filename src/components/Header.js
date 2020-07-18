@@ -57,9 +57,6 @@ function Header() {
 		<div className={classes.root}>
 			<AppBar position="fixed" className={classes.appBar}>
 				<Toolbar className={classes.toolbar}>
-					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-						<MenuIcon />
-					</IconButton>
 					<img src={logo} alt="logo" className={classes.logo}/>
 					<Typography variant="title" color="inherit" style={{ flex: 1 }}>
 					</Typography>

@@ -30,6 +30,17 @@ export default class EventService {
         });
     }
 
+    static getAllEvents(userId){
+        return new Promise((resolve, reject) => {
+            HttpService.get(`${eventURL}/all`, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
+
+
     static getEvent(eventId) {
         return new Promise((resolve, reject) => {
             HttpService.get(`${eventURL}/${eventId}`, function(data) {

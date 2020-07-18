@@ -5,6 +5,7 @@ import EventDetail from './EventDetail'
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import {eventPageURL} from '../../config';
+import UserHeader from "../UserHeader";
 
 
 
@@ -27,17 +28,9 @@ class EventPage extends Component<Props, State> {
 	//}
 	
 	componentDidMount() {
-        //this.getEventData();
-		//const match = this.props;
-		const id = "5f10a7349657c73248d9d01a"//match.params.id;
+		const id = this.props.match.params.id;
 		axios.get(eventPageURL + '/events', { params: {"_id":id} }).then(response => {
-			//console.log(response.data)
-			//console.log(res.data)
-			//let data = res.data
-			//console.log(res)
-			//console.log(data)
 			this.setState({event:response.data, loading:false})
-			//console.log(this.state.event.name)
 		})
 		.catch(err => {
 			this.setState({loading: false, error: true});
@@ -62,8 +55,10 @@ class EventPage extends Component<Props, State> {
 			)
 		}
 		return (
+			<div>
+			    <UserHeader history={this.props.history}/>
 				<EventDetail eventData={this.state.event} />
-			
+			</div>
 		)
 	}
 }
