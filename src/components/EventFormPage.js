@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import { withRouter } from 'react-router-dom';
+import DateFnsUtils from '@date-io/date-fns';
+import {DateTimePicker,MuiPickersUtilsProvider} from '@material-ui/pickers';
 import TextField from "@material-ui/core/TextField";
 import NumberFormat from 'react-number-format';
 import {NumberFormatCustom} from '../helpers/NumberFormatCustom'
@@ -134,7 +136,6 @@ function EventFormPage(props) {
         if (event === undefined) {
             event = {};
         }
-
         event.name = eventName;
         event.dateStart = eventDateStart;
         event.dateEnd = eventDateEnd;
@@ -170,34 +171,33 @@ function EventFormPage(props) {
                             />
                             <Box display="flex" flexDirection="row" >
                                 <Box p={1}>
-                                    <TextField
-                                        className={classes.textField}
-                                        required
-                                        id="eventDateStart"
-                                        label="Start Date"
-                                        type="datetime-local"
-                                        //defaultValue="2020-01-01T00:00"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        value={eventDateStart}
-                                        onChange={e => setEventDateStart(e.target.value)}
-                                    />
+
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <DateTimePicker
+                                            label="Event start date"
+                                            value={eventDateStart}
+                                            onChange={(e) => {
+                                                let d = e.toISOString();
+                                                // console.log(d);
+                                                setEventDateStart(d);
+                                            }}
+                                        />
+                                    </MuiPickersUtilsProvider>
+
                                 </Box>
                                 <Box p={1}>
-                                    <TextField
-                                        className={classes.textField}
-                                        required
-                                        id="eventDateEnd"
-                                        label="End Date"
-                                        type="datetime-local"
-                                        //defaultValue="2020-01-01T00:00"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        value={eventDateEnd}
-                                        onChange={e => setEventDateEnd(e.target.value)}
-                                    />
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <DateTimePicker
+                                            label="Event end date"
+                                            value={eventDateEnd}
+                                            onChange={(e) => {
+                                                    let d = e.toISOString();
+                                                    // console.log(d);
+                                                    setEventDateEnd(d);
+                                                }
+                                            }
+                                        />
+                                    </MuiPickersUtilsProvider>
                                 </Box>
                             </Box>
                         <Box display="flex" flexDirection="row" >
