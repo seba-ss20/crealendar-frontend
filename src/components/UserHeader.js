@@ -31,6 +31,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Calendar,momentLocalizer} from 'react-big-calendar';
+import UserService from "../services/UserService";
 // import 'react-calendar/dist/Calendar.css'
 import moment from 'moment'
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -146,11 +147,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-// const propTypes = {
-//     match: PropTypes.object.isRequired,
-//     location: PropTypes.object.isRequired,
-//     history: PropTypes.object.isRequired
-// }
+// TODO:: Find an OOP variant for Organizer/User headers-inheritance.
+
 function UserHeader(props) {
     const classes = useStyles();
     const theme = useTheme();
@@ -183,6 +181,11 @@ function UserHeader(props) {
         style: { width: '5rem', height: '5rem' },
         borderColor: 'text.primary',
     };
+    function logout() {
+        UserService.logout();
+        props.history.push('/');
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={clsx(classes.appBar, {
@@ -234,7 +237,10 @@ function UserHeader(props) {
                             <SettingsIcon />
                         </IconButton>
                         <IconButton color="inherit">
-                            <ExitToAppIcon/>
+                            <ExitToAppIcon
+                                color="inherit"
+                                onClick={logout}
+                            />
                         </IconButton>
                     </div>
                 </Toolbar>

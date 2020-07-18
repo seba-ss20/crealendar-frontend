@@ -138,7 +138,7 @@ const useStyles = makeStyles(theme => ({
         },
     },
 }));
-
+// TODO:: Find an OOP variant for Organizer/User headers-inheritance.
 function OrganizerHeader(props) {
     const classes = useStyles();
     const theme = useTheme();
@@ -149,20 +149,24 @@ function OrganizerHeader(props) {
     const handleClick = () => { setUpcomingEventsOpen(!upcomingEventsOpen ); };
     const handleDrawerOpen = () => { setAppBarOpen(true); };
     const handleDrawerClose = () => { setAppBarOpen(false); };
-    const logout = () => {
+    function logout() {
         UserService.logout();
-        /*
-        this.state = {
-            user: UserService.isAuthenticated() ? UserService.getCurrentUser() : undefined
-        };
-
-
-        if(props.location.pathname != '/') {props.history.push('/');
-        }
-        else {window.location.reload();}
-
-         */
-    };
+        props.history.push('/');
+    }
+    // const logout = () => {
+    //     UserService.logout();
+    //     /*
+    //     this.state = {
+    //         user: UserService.isAuthenticated() ? UserService.getCurrentUser() : undefined
+    //     };
+    //
+    //
+    //     if(props.location.pathname != '/') {props.history.push('/');
+    //     }
+    //     else {window.location.reload();}
+    //
+    //      */
+    // };
     let preventDefault;
     const menuId = 'primary-search-account-menu';
     let user=ls.get('userObject');
@@ -216,7 +220,10 @@ function OrganizerHeader(props) {
                             <SettingsIcon />
                         </IconButton>
                         <IconButton color="inherit" onClick={() => logout()}>
-                            <ExitToAppIcon/>
+                            <ExitToAppIcon
+                                color="inherit"
+                                onClick={logout}
+                            />
                         </IconButton>
                     </div>
                 </Toolbar>
