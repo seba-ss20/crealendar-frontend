@@ -373,7 +373,7 @@ function UserHeader(props) {
                                         </ListItem>
 
                                     ))}
-                                    <Link href="#" onClick={preventDefault} className={classes.centralize}>
+                                    <Link href="#" onClick={() => props.history.push('/discoverEvents')} className={classes.centralize}>
                                         {'Click to discover all relevant events.'}
                                     </Link>
                                 </List>

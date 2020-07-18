@@ -11,6 +11,7 @@ import AccountSetup from "./components/AccountSetup";
 import EventPage from "./components/EventPage/EventPage";
 import {EventFormPageView} from "./views/EventFormPageView";
 import {PromotionFormPageView} from "./views/PromotionFormPageView";
+import {DiscoverNewEventsView} from "./views/DiscoverNewEventsView";
 import ls from 'local-storage'
 
 
@@ -28,9 +29,10 @@ class App extends Component {
 			<Route path="/createEvent" key="/createEvent" component={EventFormPageView} />,
 			<Route path="/edit/:id" key="/editEvent" render={(props) => <EventFormPageView {...props} /> }/>,
 			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
-			<Route path="/events/:id" key="/events" component={EventPage} />,
+			<Route path="/events/:id" key="/events" render={(props) => <EventPage {...props} /> } />,
 			<Route path="/createPromotion" key="/createPromotion" component={PromotionFormPageView} />,
 			<Route path="/editPromotion/:id" key="/editPromotion" render={(props) => <PromotionFormPageView {...props} /> }/>,
+			<Route path="/discoverEvents" key="/discoverEvents" component={DiscoverNewEventsView} />,
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		
