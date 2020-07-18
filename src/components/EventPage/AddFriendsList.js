@@ -22,6 +22,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { FixedSizeList } from 'react-window';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles(theme => ({
@@ -40,10 +41,6 @@ const useStyles = makeStyles(theme => ({
 		marginRight: theme.spacing(0),
 		marginLeft: 0,
 		width: 300,
-		//[theme.breakpoints.up('sm')]: {
-		  //marginLeft: theme.spacing(3),
-		  //width: 'auto',
-		//},
 	  },
 	searchIcon: {
 		padding: theme.spacing(0, 2),
@@ -59,7 +56,6 @@ const useStyles = makeStyles(theme => ({
 	},
 	inputInput: {
 		padding: theme.spacing(1, 1, 1, 0),
-		// vertical padding + font size from searchIcon
 		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
 		transition: theme.transitions.create('width'),
 		width: '100%',
@@ -89,7 +85,9 @@ function AddFriendsList(props: Props) {
 	const classes = useStyles();
 	const { eventData } = props;
 	
-	//const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(false);
+	
+	
 	const [selectedTags, setSelectedTags] = useState([]);
 	const [username, setUsername] = useState('');
 	const [items, setItems] = useState([
@@ -97,21 +95,59 @@ function AddFriendsList(props: Props) {
 		{name: 'Second User'},
 		{name: 'Third User'},
 	]);
-	const [searchItem, setSearchItem] = useState('');
 	const [matchingUsers, setMatchingUsers] = useState([]);
-	//const loading = open && options.length === 0;
-	const [allUsers, setAllUsers] = useState();
-	//const [recommendedUsers, setRecommendedUsers] = useState([]);
+	const loading = open && matchingUsers.length === 0;
 	
+	const [allUsers, setAllUsers] = useState();
+	
+	function sleep(delay = 0) {
+	  return new Promise((resolve) => {
+		setTimeout(resolve, delay);
+	  });
+	}
+	
+	React.useEffect(() => {
+		
+		let active = true;
+
+		if (!loading) {
+		  return undefined;
+		}
+		
+		if (username === '') {
+			setMatchingUsers([]);
+		} else {
+			(async () => {
+				try {
+					const response = await axios.get('http://localhost:3001/users/all', { params: {"username":username} })
+					const data = await response.data;
+					if (active) {
+						setMatchingUsers(response.data);
+						console.log("matching searched for users are: "+ matchingUsers)
+					}
+				} catch (error) {
+					console.error(error);
+				}
+			})();
+		}
+		
+		return () => {
+		  active = false;
+		};
+	  }, [loading]);
+	  
+	React.useEffect(() => {
+		if (!open) {
+		  setMatchingUsers([]);
+		}
+	  }, [open]);
 	
 	// handles the highlighting in the recommended users for invites list
 	const onClick = index => () => {
-		console.log(items)
 		const item = items[index];
 		const newItems = [...items];
 		newItems[index] = {...item, selected: !item.selected};
 		setItems(newItems);
-		console.log(items)
 	};
 	
 	// send telegram message invites to seleceted users via "Crealendarbot"
@@ -121,9 +157,6 @@ function AddFriendsList(props: Props) {
 		const allSelectedUsers = items.filter(item => item.selected)
 		const allUsers = allTagedUsers.concat(allSelectedUsers)
 		setAllUsers(allUsers)
-		//console.log("allUsers")
-		//console.log(allUsers)
-		//allUsers.map(user => {console.log(user.username);})
 		
 		// get logged in user _id and get username, mobile, chatID
 		let loggeduser = ls.get('userObject');
@@ -131,7 +164,6 @@ function AddFriendsList(props: Props) {
 		//send Telegram message invites to selected users
 		allUsers.map(user => {
 			const msg = "Hi there "+ user.username +"! "+ loggeduser.username +" send you an invite to "+ eventData.name +". You can reply to "+ loggeduser.telephoneNumber +" and discuss the details :)";
-			//console.log(msg)
 			axios.post('https://api.telegram.org/bot1295767580:AAExKza2L_COUlhxn0aIX3ajJHK4EWRy5WI/sendMessage', {"chat_id": 720148888, "text": msg}).then(response => {
 				console.log(response.data);
 			}).catch(err => {
@@ -139,40 +171,8 @@ function AddFriendsList(props: Props) {
 			})
 		})
 	};
-	
-	// can be deleted
-	// extract and set all selected users for sending telegram message invites to
-	const getAllUsers = event => {
-		const allTagedUsers = [...selectedTags]
-		console.log(allTagedUsers)
-		const allSelectedUsers = items.filter(item => item.selected)
-		console.log(allSelectedUsers)
-		const allUsers = allTagedUsers.concat(allSelectedUsers)
-		setAllUsers(allUsers)
-		console.log("all users")
-		console.log(allUsers)
 		
-	};
 	
-	// create options of users to choose from, when using the search bar
-	const findMatches = (event) => {
-		event.preventDefault();
-		setUsername(event.target.value);
-		//console.log('username')
-		//console.log(username)
-		if (username === '') {
-			setMatchingUsers([]);
-		} else {
-			axios.get('http://localhost:3001/users/all', { params: {"username":username} }).then(response => {
-			setMatchingUsers(response.data);
-			console.log("matching searched for users are: "+ matchingUsers)
-		}).catch(err => {
-			console.error(err);
-		})
-		}
-	};
-	
-	// axios.<SearchIcon /> onChange={findMatches}
 	return (
 		<Container component="main"  maxWidth="xs" >
 			<CssBaseline />
@@ -188,6 +188,14 @@ function AddFriendsList(props: Props) {
 								selectOnFocus
 								clearOnBlur
 								handleHomeEndKeys
+								open={open}
+							    onOpen={() => {
+								  setOpen(true);
+							    }}
+							    onClose={() => {
+								  setOpen(false);
+							    }}
+								loading={loading}
 								onChange={(event, value, reason) => setSelectedTags(value)}
 								onInputChange={(event, value, reason) => console.log(value, reason)}
 								id="search"
@@ -197,10 +205,8 @@ function AddFriendsList(props: Props) {
 								loadingText='Loading...'
 								options={matchingUsers}
 								renderInput={(params) => (
-										 <TextField {...params} variant="standard"  placeholder="Search..."  onChange={findMatches}
-											classes={{
-											root: classes.inputRoot,
-										  }}/>
+										 <TextField {...params} variant="standard"  placeholder="Search..."  onChange={e => setUsername(e.target.value)}
+											classes={{root: classes.inputRoot,}} />
 									  )}
 							  />
 						</div>
