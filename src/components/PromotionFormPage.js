@@ -271,7 +271,7 @@ function PromotionFormPage(props) {
 						<PayPalButton
 							  amount={price}
 							  currency="USD"
-							  options={{clientId: "AXpVRulqOlSjWsHS8BoQ_0EJKqKxQdSrVuqXbhqPpx_heRR-HV3XJuAskbdbK3g1BUX4mIzp4Yj6K1Om", }}
+							  options={{clientId: "AXpVRulqOlSjWsHS8BoQ_0EJKqKxQdSrVuqXbhqPpx_heRR-HV3XJuAskbdbK3g1BUX4mIzp4Yj6K1Om", disableFunding:['card', 'sepa', 'giropay', 'sofort'] }}
 							  onSuccess={(details, data) => onSuccess(details, data)}
 						  />
 						<Button id="submit" type="submit" startIcon={<SaveIcon />} className={classes.saveButton}
