@@ -32,6 +32,7 @@ export default class PromotionService {
         });
     }
 
+	// no
     static deletePromotion(id) {
         return new Promise((resolve, reject) => {
             HttpService.remove(`${promotionURL}/${id}`, function(data) {
@@ -47,6 +48,7 @@ export default class PromotionService {
         });
     }
 
+	//no
     static updatePromotion(promotion) {
         return new Promise((resolve, reject) => {
             HttpService.put(`${promotionURL}/users/promotions/${promotion._id}`,promotion, function(data) {
@@ -61,6 +63,7 @@ export default class PromotionService {
         return new Promise((resolve, reject) => {
             HttpService.post(`${promotionURL}/users/${userId}/addPromotion`, promotion, function(data) {
                 resolve(data);
+				console.log("here")
             }, function(textStatus) {
                 reject(textStatus);
             });
