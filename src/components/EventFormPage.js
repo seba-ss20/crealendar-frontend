@@ -179,7 +179,7 @@ function EventFormPage(props) {
     }
     return (
         <div className={classes.root}>
-            <OrganizerHeader/>
+            <OrganizerHeader history={props.history}/>
                 <Grid container spacing={3} >
                     <Grid item xs={11}>
                         <div className={classes.paperTop} >

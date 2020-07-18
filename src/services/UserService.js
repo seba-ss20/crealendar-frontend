@@ -1,7 +1,6 @@
-"use strict";
-
 import HttpService from './HttpService';
 import {baseURL} from '../config';
+import ls from 'local-storage';
 
 export default class UserService {
 
@@ -41,6 +40,7 @@ export default class UserService {
 
     static logout(){
         window.localStorage.removeItem('jwtToken');
+        ls.clear();
     }
 
     static getCurrentUser() {
