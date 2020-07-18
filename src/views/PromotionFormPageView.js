@@ -50,6 +50,9 @@ export class PromotionFormPageView extends React.Component {
                 let user = ls.get('userObject');
                 let userId = user['_id'];
                 promotion.owner = userId;
+				console.log("promotion.owner")
+				console.log(promotion.owner)
+				console.log(promotion)
                 let ret = await PromotionService.createPromotion(userId,promotion);
                 this.props.history.push('/organizer');
             } catch(err) {

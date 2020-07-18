@@ -63,7 +63,6 @@ export default class PromotionService {
         return new Promise((resolve, reject) => {
             HttpService.post(`${promotionURL}/users/${userId}/addPromotion`, promotion, function(data) {
                 resolve(data);
-				console.log("here")
             }, function(textStatus) {
                 reject(textStatus);
             });

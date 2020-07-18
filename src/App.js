@@ -30,7 +30,7 @@ class App extends Component {
 			<Route path="/organizer" key="/organizer" component={OrganizerPage} />,
 			<Route path="/events/:id" key="/events" component={EventPage} />,
 			<Route path="/createPromotion" key="/createPromotion" component={PromotionFormPageView} />,
-			<Route path="/edit/:id" key="/editPromotion" render={(props) => <PromotionFormPageView {...props} /> }/>,
+			<Route path="/editPromotion/:id" key="/editPromotion" render={(props) => <PromotionFormPageView {...props} /> }/>,
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		

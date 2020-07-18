@@ -11,7 +11,7 @@ export const PromotionList = ({data, onDelete}) => (
         <TableContainer plain style={dataTableStyle}>
             <Table aria-label="simple table">
             <TableBody>
-                {data.map((promo, i) => <PromotionListRow key={i} promo={promo} onDelete={(id) => onDelete(id)}/>)}
+                {data.map((promotion, i) => <PromotionListRow key={i} promotion={promotion} onDelete={(id) => onDelete(id)}/>)}
             </TableBody>
             </Table>
         </TableContainer>

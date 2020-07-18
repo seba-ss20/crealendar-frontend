@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
+import ls from 'local-storage'
 
 // search bar
 import InputBase from '@material-ui/core/InputBase';
@@ -89,7 +90,6 @@ function AddFriendsList(props: Props) {
 	const { eventData } = props;
 	
 	//const [open, setOpen] = useState(false);
-	const [currentUser, setCurrentUser] = useState({});
 	const [selectedTags, setSelectedTags] = useState([]);
 	const [username, setUsername] = useState('');
 	const [items, setItems] = useState([
@@ -126,26 +126,11 @@ function AddFriendsList(props: Props) {
 		//allUsers.map(user => {console.log(user.username);})
 		
 		// get logged in user _id and get username, mobile, chatID
-		let token = window.localStorage.getItem('token');
-		let base64Url = token.split('.')[1];
-		let base64 = base64Url.replace('-', '+').replace('_', '/');
-		const _id = JSON.parse(window.atob(base64))._id;
-		//console.log("_id")
-		//console.log(_id)
-		axios.get('http://localhost:3001/auth/user_info', {params: {"_id": _id}}).then(response => {
-			setCurrentUser(response.data);
-			//console.log(response.data);
-			//console.log("logged in user is: "+ currentUser);
-		}).catch(err => {
-			console.error(err);
-		})
+		let loggeduser = ls.get('userObject');
 		
 		//send Telegram message invites to selected users
-		// it only works on the second click
-		//"Hi {currentUser.username}! {info.username} send you an invite to {event.name}. You can reply to {info.telephoneNumber} and discuss the details :)"
-		//console.log("logged in user is: "+ currentUser.username)
 		allUsers.map(user => {
-			const msg = "Hi there "+ user.username +"! "+ currentUser.username +" send you an invite to "+ eventData.name +". You can reply to "+ currentUser.telephoneNumber +" and discuss the details :)";
+			const msg = "Hi there "+ user.username +"! "+ loggeduser.username +" send you an invite to "+ eventData.name +". You can reply to "+ loggeduser.telephoneNumber +" and discuss the details :)";
 			//console.log(msg)
 			axios.post('https://api.telegram.org/bot1295767580:AAExKza2L_COUlhxn0aIX3ajJHK4EWRy5WI/sendMessage', {"chat_id": 720148888, "text": msg}).then(response => {
 				console.log(response.data);

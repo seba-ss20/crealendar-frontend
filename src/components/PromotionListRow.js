@@ -17,7 +17,7 @@ export class PromotionListRow extends React.Component {
             <TableRow key={this.props.key}>
                 <TableCell>{this.props.promotion.name} </TableCell>
                 {UserService.isAuthenticated() ?
-                    <TableCell align='right' size='small'><Link to={`/edit/${this.props.promotion._id}`}><EditIcon/></Link></TableCell>
+                    <TableCell align='right' size='small'><Link to={`/editPromotion/${this.props.promotion._id}`}><EditIcon/></Link></TableCell>
                     : <TableCell align='right' size='small'><Link to={'/login'}><EditIcon/></Link></TableCell>
                 }
                 {UserService.isAuthenticated() ?

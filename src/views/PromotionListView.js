@@ -20,6 +20,8 @@ export class PromotionListView extends React.Component {
         });
         let user = ls.get('userObject');
         PromotionService.getPromotionsByOwnerId(user['_id']).then((data) => {
+			console.log("received data in PromotionListView")
+			console.log(data)
             this.setState({
                 data: [...data],
                 loading: false

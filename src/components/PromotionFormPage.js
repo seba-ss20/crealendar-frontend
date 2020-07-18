@@ -85,7 +85,7 @@ function PromotionFormPage(props) {
 
     const [promotionName, setPromotionName] = useState(initStateName);
     const [promotionDateStart, setPromotionDateStart] = useState(new Date());
-	const [promotionDuration, setPromotionDuration] = useState(initStateDuration);
+	const [promotionDuration, setPromotionDuration] = useState(30);
     const [price, setPrice] = useState(30);
     const [description, setDescription] = useState(initStateDesc);
     const [selectedTags, setSelectedTags]  = React.useState(initStateTags);
