@@ -94,8 +94,6 @@ const EventDetail = (props: Props) => {
 	
 	const [open, setOpen] = useState(false);
 	const eventData = props.eventData;
-	console.log(eventData.name)
-	//console.log(props.eventData.name)//alignItems="flex-start"
 	const classes = useStyles();
 	
 	const openAddFriendsDialog = () => {

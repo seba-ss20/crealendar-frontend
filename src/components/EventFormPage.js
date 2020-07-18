@@ -8,8 +8,6 @@ import {NumberFormatCustom} from '../helpers/NumberFormatCustom'
 import Button from '@material-ui/core/Button';
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
 import OrganizerHeader from "./OrganizerHeader";
 import Box from '@material-ui/core/Box';
 import Paper from "@material-ui/core/Paper";
@@ -207,7 +205,6 @@ function EventFormPage(props) {
                                             value={eventDateStart}
                                             onChange={(e) => {
                                                 let d = e.toISOString();
-                                                // console.log(d);
                                                 setEventDateStart(d);
                                             }}
                                         />
@@ -221,7 +218,6 @@ function EventFormPage(props) {
                                             value={eventDateEnd}
                                             onChange={(e) => {
                                                     let d = e.toISOString();
-                                                    // console.log(d);
                                                     setEventDateEnd(d);
                                                 }
                                             }
@@ -229,8 +225,7 @@ function EventFormPage(props) {
                                     </MuiPickersUtilsProvider>
                                 </Box>
                             </Box>
-                        <Box display="flex" flexDirection="row" >
-                            <Box p={1}>
+                            <Grid item xs={11}>
                             <TextField
                                 className={classes.textField}
                                 label="Price"
@@ -243,11 +238,11 @@ function EventFormPage(props) {
                                     inputComponent: NumberFormatCustom,
                                 }}
                             />
-                            </Box>
-                            <Box p={1}>
+                            </Grid>
+                            <Grid item xs={11}>
                                 <TextField
                                     className={classes.textField}
-                                    label="Capacity"
+                                    placeholder="Capacity"
                                     value={capacity}
                                     onChange={e => setCapacity(e.target.value)}
                                     name="eventCapacity"
@@ -257,8 +252,8 @@ function EventFormPage(props) {
                                         inputComponent: NumberFormat,
                                     }}
                                 />
-                            </Box>
-                            <Box p={1}>
+                            </Grid>
+                            <Grid item xs={11}>
                                 <TextField
                                     className={classes.textField}
                                     name="eventLocation"
@@ -270,8 +265,7 @@ function EventFormPage(props) {
                                     value={location}
                                     onChange={e => setLocation(e.target.value)}
                                 />
-                            </Box>
-                        </Box>
+                            </Grid>
                             <TextField
                                 margin='dense'
                                 name="eventDescription"
