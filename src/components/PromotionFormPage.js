@@ -25,6 +25,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 
+// Paypal integration
+import { PayPalButton } from "react-paypal-button-v2";
+
 const useStyles = makeStyles(theme => ({
 
     root: {
@@ -89,6 +92,7 @@ function PromotionFormPage(props) {
     const [price, setPrice] = useState(30);
     const [description, setDescription] = useState(initStateDesc);
     const [selectedTags, setSelectedTags]  = React.useState(initStateTags);
+	const [receivedPayment, setReceivedPayment]  = React.useState(false);
     const [tags, setTags]  = React.useState(
         [
             {key: 0, data: 'Tennis'},
@@ -145,6 +149,17 @@ function PromotionFormPage(props) {
 			setPromotionDuration(event.target.value);
 		
 	  };
+	  
+	 const onSuccess = (details, data) => {
+		 setReceivedPayment(true)
+		 alert("Transaction completed by " + details.payer.name.given_name);
+		 return fetch("/paypal-transaction-complete", {
+            method: "post",
+            body: JSON.stringify({
+              orderID: data.orderID
+            })
+          });
+	 }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -253,10 +268,16 @@ function PromotionFormPage(props) {
                                 })}
                             </Paper>
                     <Box display="flex" justifyContent="flex-end" m={1} p={1}>
-                    <Button id="submit" type="submit" startIcon={<SaveIcon />} className={classes.saveButton}
-                            disabled={promotionName === undefined || promotionName === '' || promotionDateStart === undefined}
-                    >Save</Button>
-                    <Button id="reset" type="reset">Dismiss</Button>
+						<PayPalButton
+							  amount={price}
+							  currency="USD"
+							  options={{clientId: "AXpVRulqOlSjWsHS8BoQ_0EJKqKxQdSrVuqXbhqPpx_heRR-HV3XJuAskbdbK3g1BUX4mIzp4Yj6K1Om", }}
+							  onSuccess={(details, data) => onSuccess(details, data)}
+						  />
+						<Button id="submit" type="submit" startIcon={<SaveIcon />} className={classes.saveButton}
+								disabled={promotionName === undefined || promotionName === '' || promotionDateStart === undefined || receivedPayment === false}
+						>Save</Button>
+						<Button id="reset" type="reset">Dismiss</Button>
                     </Box>
                 </form>
                         </div>
@@ -265,5 +286,6 @@ function PromotionFormPage(props) {
             </div>
     );
 }
+
 
 export default withRouter(PromotionFormPage);
