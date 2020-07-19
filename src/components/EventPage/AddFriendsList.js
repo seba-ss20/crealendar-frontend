@@ -16,6 +16,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 
 // user list
+import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -113,7 +114,7 @@ function AddFriendsList(props: Props) {
 	const [allUsers, setAllUsers] = useState();
 	
 	
-	React.useEffect(() => {
+	useEffect(() => {
 		let active = true;
 
 		if (!loading) {
@@ -142,7 +143,7 @@ function AddFriendsList(props: Props) {
 		};
 	  }, [loading]);
 	  
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!openAutocomplete) {
 		  setMatchingUsers([]);
 		}
@@ -225,6 +226,9 @@ function AddFriendsList(props: Props) {
 							<List style={{ maxHeight: 400, minHeight: 400, maxWidth: 300, minWidth: 300 }} className={classes.listRoot}>
 								{items.map((item, index) => (
 									<ListItem key={index} button selected={item.selected} onClick={onClick(index)} >
+										<ListItemIcon>
+										  <Avatar>{item.name[0]}</Avatar>
+										</ListItemIcon>
 										<ListItemText primary={item.name}>
 										</ListItemText>
 									</ListItem>
