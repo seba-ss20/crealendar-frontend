@@ -179,10 +179,11 @@ function EventFormPage(props) {
         let file = event.target.files[0];
         setSelectedImageBinary(file);
         const reader = new FileReader();
-        let url = reader.readAsDataURL(file);
         reader.onloadend = function(e) {
             setSelectedImage(reader.result);
         };
+        let url = reader.readAsDataURL(file);
+
 
     }
     return (

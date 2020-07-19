@@ -162,7 +162,10 @@ function Signup(props) {
                         </Grid>
                         <Grid item xs={12}>
                             <FormControlLabel
-                                control={<Switch checked={switchChecked} onChange={e => setSwitchChecked(e.target.checked)}  />}
+                                control={<Switch checked={switchChecked} onChange={e => {
+                                    setUserRole(e.target.checked ? "Organizer" : "User");
+                                    setSwitchChecked(e.target.checked);
+                                }}  />}
                                 label="Are you an Event Organizer?" labelPlacement='start'
                             />
                         </Grid>

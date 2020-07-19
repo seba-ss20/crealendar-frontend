@@ -55,7 +55,7 @@ export class EventFormPageView extends React.Component {
                     .then((event) => {
                         if(image !== undefined && image !== null){
                             let event_id = event["_id"];
-                            return EventService.addImage(userId,event_id,image);
+                            EventService.addImage(userId,event_id,image);
                         }
                     })
                     .then((response) => {
@@ -79,7 +79,7 @@ export class EventFormPageView extends React.Component {
                     .then((event) => {
                         if(image !== undefined && image !== null){
                             let event_id = event["_id"];
-                            return EventService.addImage(userId,event_id,image);
+                            EventService.addImage(userId,event_id,image);
                         }
                     })
                     .then((response) => {
