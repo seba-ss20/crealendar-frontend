@@ -189,7 +189,7 @@ const EventDetail = (props: Props) => {
 					{ location.length > 0 ? getLocation() : null }
 				</Grid>
 				<Grid item xs={2} >
-					{ promotions && loggeduser.role === "Organizer" ? promotions.map( promotion => (
+					{ promotions && loggeduser.role === "User" ? promotions.map( promotion => (
 						<div className={classes.rootPromotions}>
 							<Card className={classes.cardright} border='none' variant="outlined">
 								<CardContent className={classes.content}>
