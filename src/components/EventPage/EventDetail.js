@@ -13,10 +13,8 @@ import AddIcon from '@material-ui/icons/Add';
 import TelegramIcon from '@material-ui/icons/Telegram';
 import CardMedia from "@material-ui/core/CardMedia";
 
-//import axios from 'axios';
-//import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
-//import Avatar from "@material-ui/core/Avatar";// maybe incorporate later
 import Card from "@material-ui/core/Card";
 //import CardMedia from "@material-ui/core/CardMedia"; // maybe later
 import CardContent from "@material-ui/core/CardContent";
@@ -101,8 +99,10 @@ const EventDetail = (props: Props) => {
 	
 	const [open, setOpen] = useState(false);
 	const eventData = props.eventData;
-	console.log(eventData.name)
 	const classes = useStyles();
+	const [location, setLocation] = useState(eventData.location);
+	const [coords, setCoords] = useState();
+	const googleKey = "AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70";
 	
 	const openAddFriendsDialog = () => {
         setOpen(true);
@@ -111,6 +111,21 @@ const EventDetail = (props: Props) => {
 	const handleClose = () => {
         setOpen(false);
     }
+	
+	const getLocation = () => {
+		axios.get('https://maps.googleapis.com/maps/api/geocode/json', { params: {"address":location, "key": googleKey }}).then(response => {
+			setCoords(response.data.results[0].geometry.location)
+		}).catch(err => {
+			console.error(err);
+		})
+		return (
+			<div className={classes.rootUp} >
+				<Map google={props.google} style={{ maxHeight: 250, minHeight: 250, maxWidth: 250, minWidth: 250 }} center={coords}>
+					<Marker position={coords}/>
+				</Map>
+			</div>
+		)
+	}
 	
 	
 	return (
@@ -176,11 +191,7 @@ const EventDetail = (props: Props) => {
 							eventData={eventData}
 						/>
 					</div>
-					<div className={classes.rootUp} >
-						<Map google={props.google} style={{ maxHeight: 250, minHeight: 250, maxWidth: 250, minWidth: 250 }} >
-							<Marker />
-						</Map>
-					</div>
+					{ location.length > 0 ? getLocation() : null }
 				</Grid>
 				<Grid item xs={2}>
 					<Card className={classes.cardright} border='none'>
