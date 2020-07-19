@@ -31,11 +31,13 @@ class EventPage extends Component<Props, State> {
 
 	async addToCalendar(event) {
 		try {
+				console.log('Adding event to user');
+				console.log(event);
 				let user = ls.get('userObject');
 				let userId = user['_id'];
 				event.owner = userId;
 				delete event._id;
-				let ret = await EventService.createEvent(userId,event);
+				let ret = await EventService.participateEvent(userId,event);
 				this.props.history.push('/user');
 			} catch(err) {
 				console.error(err);
