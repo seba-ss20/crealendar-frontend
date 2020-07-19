@@ -101,7 +101,6 @@ const EventDetail = (props: Props) => {
 	
 	const openAddFriendsDialog = () => {
         setOpen(true);
-		getLocation();
     }
 	
 	const handleClose = () => {
