@@ -66,6 +66,10 @@ const useStyles = makeStyles((theme) => ({
     transition: "0.3s",
     boxShadow: "none",
   },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
   information: {
         padding: 2,
         marginTop: 10,
@@ -97,6 +101,7 @@ const EventDetail = (props: Props) => {
 	
 	const openAddFriendsDialog = () => {
         setOpen(true);
+		getLocation();
     }
 	
 	const handleClose = () => {
@@ -136,20 +141,6 @@ const EventDetail = (props: Props) => {
 						<Typography className={"MuiTypography--heading"} variant={"h4"} gutterBottom style={{ fontStyle: 'bold' }}>
 							{eventData.name}
 						</Typography>
-							<img
-								height="20%"
-								width="50%"
-								// className={classes.media}
-								src={`${eventURL}/images/`+eventData._id}
-							/>
-							{/*<Card>*/}
-							{/*	<CardMedia*/}
-							{/*		className={classes.cover}*/}
-							{/*		// image="/static/images/cards/live-from-space.jpg"*/}
-							{/*		src={`${eventURL}/images/`+eventData._id}*/}
-							{/*		title="Live from space album cover"*/}
-							{/*	/>*/}
-							{/*</Card>*/}
 						</Paper>
 					</Paper>
 				</Grid>
@@ -159,6 +150,10 @@ const EventDetail = (props: Props) => {
 			<Grid container spacing={1} justify="center" direction="row" >
 				<Grid item xs={7}>
 					<Card className={classes.card} border='none'>
+						<CardMedia
+							className={classes.media}
+							image={`${eventURL}/images/`+eventData._id}
+						  />
 						<CardContent className={classes.content}>
 							<Typography className={"MuiTypography--heading"} variant={"h6"} gutterBottom>
 								{eventData.subtitle}
