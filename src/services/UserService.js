@@ -7,11 +7,13 @@ export default class UserService {
     constructor() {
     }
 
-    static register(user, pass, role, calendar, tags, showNearMe, eventList) {
+    static register(user, pass, firstname, lastname, role, calendar, tags, showNearMe, eventList) {
         return new Promise((resolve, reject) => {
             HttpService.post(`${baseURL}/register`, {
                 username: user,
                 password: pass,
+                firstname: firstname,
+                lastname: lastname,
                 role: role,
                 calendar: calendar,
                 tags: tags,

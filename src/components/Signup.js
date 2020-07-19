@@ -35,9 +35,13 @@ function Signup(props) {
 	const { signupError } = props.signupError;
 	const classes = useStyles();
 	const [username, setUsername] = useState('');
+	const [firstname, setFirstname] = useState('');
+	const [lastname, setLastname] = useState('');
     const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [usernameError, setUsernameError] = useState("");
+	const [firstnameError, setFirstnameError] = useState("");
+	const [lastnameError, setLastnameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [switchChecked, setSwitchChecked] = useState(false);
@@ -47,6 +51,8 @@ function Signup(props) {
 	function handleSubmit(event) {
         event.preventDefault();
         username.length > 0 ? setUsernameError("") : setUsernameError("Username is empty");
+        firstname.length > 0 ? setFirstnameError("") : setFirstnameError("First name is empty");
+        lastname.length > 0 ? setLastnameError("") : setLastnameError("Last name is empty");
         password.length > 0 ? setPasswordError("") : setPasswordError("Passwort is empty");
 		confirmPassword.length > 0 ? setConfirmPasswordError("") : setConfirmPasswordError("Passwort is empty");
 		switchChecked ? setUserRole("Organizer") : setUserRole("User")
@@ -58,8 +64,8 @@ function Signup(props) {
         const eventList = [];
         const showNearMe = false;
 
-        if (username.length > 0 && password.length > 0 && confirmPassword.length > 0 && password.localeCompare(confirmPassword) === 0)
-            props.signup(username, password, userRole, calendar, tags, showNearMe, eventList);
+        if (username.length > 0 && password.length > 0 && confirmPassword.length > 0 && firstname.length > 0  && lastname.length > 0  && password.localeCompare(confirmPassword) === 0)
+            props.signup(username, password, firstname, lastname, userRole, calendar, tags, showNearMe, eventList);
 		else {
 		    setConfirmPasswordError("Passwords do not match.")
 		}
@@ -120,6 +126,38 @@ function Signup(props) {
                                 autoComplete="current-password"
                                 value={confirmPassword}
                                 onChange={e => setConfirmPassword(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={firstnameError || (signupError && signupError.length > 0)}
+                                helperText={firstnameError}
+                                autoComplete="firstname"
+                                name="firstname"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="firstname"
+                                label="First name"
+                                autoFocus
+                                value={firstname}
+                                onChange={e => setFirstname(e.target.value)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                error={lastnameError || (signupError && signupError.length > 0)}
+                                helperText={lastnameError}
+                                autoComplete="lastname"
+                                name="lastname"
+                                variant="outlined"
+                                required
+                                fullWidth
+                                id="lastname"
+                                label="Last name"
+                                autoFocus
+                                value={lastname}
+                                onChange={e => setLastname(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
