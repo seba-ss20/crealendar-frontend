@@ -28,13 +28,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Settings(props) {
-    const classes = useStyles();
-    const [mobilePhone, setMobilePhone] = useState('');
-    const [mobilePhoneError, setMobilePhoneError] = useState('');
-    const [chatID, setChatID] = useState('');
-    const [chatIDError, setChatIDError] = useState('');
 
     let user = ls.get('userObject');
+
+    const classes = useStyles();
+    const [mobilePhone, setMobilePhone] = useState(user.mobile);
+    const [mobilePhoneError, setMobilePhoneError] = useState('');
+    const [chatID, setChatID] = useState(user.chatID);
+    const [chatIDError, setChatIDError] = useState('');
+
 
     function handleSubmit(event) {
         event.preventDefault();
