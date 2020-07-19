@@ -164,7 +164,7 @@ function AddFriendsList(props: Props) {
 		
 		// get logged in user _id and get username, mobile, chatID
 		let loggeduser = ls.get('userObject');
-		loggeduser.mobile = "01638146549";
+		loggeduser.mobile = "01*********";
 		
 		//send Telegram message invites to selected users
 		allUsers.map(user => {

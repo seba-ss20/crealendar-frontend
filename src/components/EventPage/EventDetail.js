@@ -92,7 +92,7 @@ const EventDetail = (props: Props) => {
 	const [open, setOpen] = useState(false);
 	const [location, setLocation] = useState(eventData.location);
 	const [coords, setCoords] = useState();
-	const googleKey = "AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70";
+	const googleKey = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 	const loggeduser = ls.get('userObject');
 	const [promotions, setPromotions] = useState([
 		{name: "Free Tennis Lessons", description: "Make your appointment now bit.ly/123"},
@@ -101,7 +101,6 @@ const EventDetail = (props: Props) => {
 	
 	const openAddFriendsDialog = () => {
         setOpen(true);
-		getLocation();
     }
 	
 	const handleClose = () => {
