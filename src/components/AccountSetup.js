@@ -27,6 +27,8 @@ import EventTagService from "../services/EventTagService";
 import {Role} from "../helpers/roles";
 import {sha256} from "js-sha256";
 import ls from 'local-storage'
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 
 // TODO:: ON EMAIL CHANGE, Change ID of all events as well.
 // TODO:: Disable OK Button of calendar upload if there is no item uploaded.
@@ -130,6 +132,7 @@ function AccountSetup(props) {
             {key: 12, data: 'Software Engineering'},
         ]
     );
+    const [autoCompleteValue, setAutoCompleteValue] = useState(...tags);
     async function uploadCalendar(username, events) {
         return await EventService.uploadCalendar(username,events);
     }
@@ -316,8 +319,6 @@ function AccountSetup(props) {
 
     return (
         <div className={classes.root}>
-            <CssBaseline />
-            <UserHeader history={props.history}/>
             <Grid container spacing={3}>
                 <Grid item xs={11}>
                     <div className={classes.paperTop} >
@@ -393,6 +394,7 @@ function AccountSetup(props) {
                             })}
                         </Paper>
                         <Paper className={classes.paperChip}>
+
                             {tags.map((data) => {
                                 return (
                                     <Chip key={data.key}
@@ -404,6 +406,31 @@ function AccountSetup(props) {
                                 );
                             })}
                         </Paper>
+                        {/*<Paper className={classes.paperChip}>*/}
+                            {/*<Autocomplete*/}
+                            {/*    multiple*/}
+                            {/*    id="tags-outlined"*/}
+                            {/*    options={autoCompleteValue}*/}
+                            {/*    getOptionLabel={(t)=> t.data}*/}
+                            {/*    value={autoCompleteValue}*/}
+                            {/*    onChange={(e, newval, reason) => {*/}
+                            {/*        setAutoCompleteValue(newval);*/}
+                            {/*    }}*/}
+                            {/*    renderInput={params => (*/}
+                            {/*        <TextField*/}
+                            {/*            {...params}*/}
+                            {/*            variant="outlined"*/}
+                            {/*            label="filterSelectedOptions"*/}
+                            {/*            placeholder="Search or Add Tag!"*/}
+                            {/*            onKeyDown={e => {*/}
+                            {/*                if (e.keyCode === 13 && e.target.value) {*/}
+                            {/*                    setAutoCompleteValue(autoCompleteValue.concat(e.target.value));*/}
+                            {/*                }*/}
+                            {/*            }}*/}
+                            {/*        />*/}
+                            {/*    )}*/}
+                            {/*/>*/}
+                        {/*</Paper>*/}
                         <Typography component={'h3'} className={classes.paperCoverHeader}>
 
                             You can modify your preferences from
@@ -457,6 +484,7 @@ function AccountSetup(props) {
                     </div>
                 </Grid>
             </Grid>
+
         </div>
     )
 }

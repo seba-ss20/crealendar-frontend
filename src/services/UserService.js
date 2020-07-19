@@ -84,6 +84,19 @@ export default class UserService {
             });
         });
     }
+    static addCommunicationInfo(username,mobilePhone,chatID){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${baseURL}/addCommunication`, {
+                username: username,
+                mobile: mobilePhone,
+                chatid: chatID,
+            }, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
     static addAvatar(userId,image) {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
