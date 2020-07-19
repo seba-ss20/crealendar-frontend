@@ -55,8 +55,10 @@ export class EventFormPageView extends React.Component {
                     .then((event) => {
                         if(image !== undefined && image !== null){
                             let event_id = event["_id"];
-                            return EventService.addImage(userId,event_id,image);
+                            EventService.addImage(userId,event_id,image);
+
                         }
+
                     })
                     .then((response) => {
                         this.props.history.push('/organizer');
@@ -65,7 +67,7 @@ export class EventFormPageView extends React.Component {
                         console.log('Could not send the image');
                         console.log(reason);
                     });
-
+                this.props.history.push('/organizer');
             } catch(err) {
                 console.error(err);
                 this.setState(Object.assign({}, this.state, {error: 'Error while creating event'}));
@@ -79,16 +81,20 @@ export class EventFormPageView extends React.Component {
                     .then((event) => {
                         if(image !== undefined && image !== null){
                             let event_id = event["_id"];
-                            return EventService.addImage(userId,event_id,image);
+                            EventService.addImage(userId,event_id,image);
+
                         }
+
                     })
                     .then((response) => {
-                        this.props.history.push('/organizer');
-                    })
+                            this.props.history.push('/organizer');
+                    }
+                    )
                     .catch((reason) => {
                         console.log('Could not send the image');
                         console.log(reason);
                     });
+                this.props.history.push('/organizer');
             } catch(err) {
                 console.error(err);
                 this.setState(Object.assign({}, this.state, {error: 'Error while updating event'}));
