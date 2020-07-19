@@ -309,21 +309,6 @@ function UserHeader(props) {
                     {/*<Button component= {Link} to='/login' color="inherit" className={classes.rightButton}>Login</Button>*/}
                     {/*<Button component= {Link} to='/signup' color="inherit" className={classes.rightButton}>Sign Up</Button>*/}
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton aria-label="show 2 new events" color="inherit">
-                            <Badge badgeContent={2} color="secondary">
-                                <EventIcon />
-                            </Badge>
-                        </IconButton>
                         <IconButton
                             edge="end"
                             aria-label="account of current user"
