@@ -145,7 +145,7 @@ const EventDetail = (props: Props) => {
 				</Grid>
 				<Grid item xs={2}>
 					<div className={classes.rootButtons}>
-						<Button variant="contained" style={{maxWidth: 250, minWidth: 250}} startIcon={<AddIcon />}>Add to calendar</Button>
+						<Button variant="contained" style={{maxWidth: 250, minWidth: 250}} startIcon={<AddIcon />} onClick={() => props.onAddtoCalendar(eventData)} >Add to calendar</Button>
 					</div>
 					<div className={classes.rootButtons}>
 						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />}>Invite friends</Button>

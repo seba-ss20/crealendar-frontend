@@ -6,6 +6,9 @@ import axios from 'axios';
 import { withRouter } from 'react-router-dom';
 import {eventPageURL} from '../../config';
 import UserHeader from "../UserHeader";
+import ls from "local-storage";
+import EventService from "../../services/EventService";
+import {sha256} from "js-sha256";
 
 
 
@@ -37,6 +40,21 @@ class EventPage extends Component<Props, State> {
 			console.error(err);
 		})
     }
+
+	async addToCalendar(event) {
+		try {
+				let user = ls.get('userObject');
+				let userId = user['_id'];
+				event.owner = userId;
+				delete event._id;
+				let ret = await EventService.createEvent(userId,event);
+				this.props.history.push('/user');
+			} catch(err) {
+				console.error(err);
+				this.setState(Object.assign({}, this.state, {error: 'Error while creating event'}));
+			}
+
+	}
 	
 	
 	render() {
@@ -57,7 +75,7 @@ class EventPage extends Component<Props, State> {
 		return (
 			<div>
 			    <UserHeader history={this.props.history}/>
-				<EventDetail eventData={this.state.event} />
+				<EventDetail eventData={this.state.event} onAddtoCalendar={(event) => this.addToCalendar(event)} />
 			</div>
 		)
 	}
