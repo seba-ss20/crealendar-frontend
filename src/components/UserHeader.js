@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import { makeStyles , useTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
@@ -45,6 +45,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ls from 'local-storage';
 import Tooltip from "@material-ui/core/Tooltip";
 import {baseURL,eventURL} from "../config";
+import EventService from "../services/EventService";
 const localizer = momentLocalizer(moment)
 
 
@@ -174,8 +175,6 @@ function UserHeader(props) {
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
     const [selectedAvatar, setSelectedAvatar]  = React.useState(initAvatar);
     const [selectedAvatarBinary, setSelectedAvatarBinary]  = React.useState(null);
-    const [calendarUploaded, setCalendarUploaded] = React.useState(true);
-
     const [events, setEvents] = React.useState([
         {
             start: moment().toDate(),
@@ -185,6 +184,66 @@ function UserHeader(props) {
             title: "Some title"
         }
     ]);
+    const [discoverableEvents, setDiscoverableEvents] = React.useState([
+        {
+            start: moment().toDate(),
+            end: moment()
+                .add(1, "days")
+                .toDate(),
+            title: "Some title"
+        }
+    ]);
+    const [calendarUploaded, setCalendarUploaded] = React.useState(true);
+    useEffect(()=>{
+        EventService.getEvents(user['_id'])
+            .then(response => {
+                let event_arr = [];
+                response.map(event => {
+
+                    let start = moment(new Date(event.dateStart));
+                    let end = moment(new Date(event.dateEnd));
+                    let title = event.name;
+                    console.log('start');
+                    console.log(start);
+                    console.log('end');
+                    console.log(end);
+                    event_arr.push({
+                        start: start,
+                        end: end,
+                        title: title,
+                    })
+
+                    event_arr.sort(function(a,b){
+                        return new Date(b.start) - new Date(a.start);
+                    });
+                });
+                setEvents(event_arr);
+                console.log(response);
+            });
+        EventService.getAllEvents(user['_id'])
+            .then((data) => {
+                let d_events = [];
+                for(let i = 0 ; i < data.length; i++){
+                    let isOwner = data[i].owner === user['_id']
+                    let isParticipant = data[i].participants !== undefined && data[i].participants.includes(user['_id']);
+                    let start = moment(new Date(data[i].dateStart));
+                    let end = moment(new Date(data[i].dateEnd));
+                    let title = data[i].name;
+                    if(!(isOwner || isParticipant)){
+                        d_events.push({
+                            start: start,
+                            end: end,
+                            title: title,
+                        });
+                    }
+                }
+                d_events.sort(function(a,b){
+                    return new Date(b.start) - new Date(a.start);
+                });
+                setDiscoverableEvents(d_events);
+            });
+    },[]);
+
     // const { match, location, history } = this.props
     const handleClick = () => { setUpcomingEventsOpen(!upcomingEventsOpen ); };
     const handleDiscoverClick = () => { setDiscoverEventsOpen(!discoverEventsOpen ); };
@@ -345,32 +404,31 @@ function UserHeader(props) {
                         <List component="div" disablePadding>
                             <ListItem className={classes.nested}>
                                 <List>
-                                    {['Ayfer A', 'Beyfer B', 'Ceyfer C'].map((text, index) => (
+                                    {events.map((event, index) => (
+                                        index <5 ?
+                                                <ListItem button alignItems="flex-start">
+                                                    <ListItemAvatar>
+                                                        <Avatar alt={event.title} src="/static/images/avatar/3.jpg" />
+                                                    </ListItemAvatar>
 
-                                        <ListItem button alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                <Avatar alt={text} src="/static/images/avatar/3.jpg" />
-                                            </ListItemAvatar>
+                                                    <ListItemText
+                                                        primary={event.title}
+                                                        secondary={
+                                                                <Typography
+                                                                    component="span"
+                                                                    variant="body2"
+                                                                    className={classes.inline}
+                                                                    color="textPrimary"
+                                                                >
+                                                                    {event.start.toString()}
+                                                                </Typography>
+                                                        }
+                                                    />
+                                                </ListItem>
+                                        : <div className={classes.hide}/>
 
-                                            <ListItemText
-                                                primary={text}
-                                                secondary={
-                                                    <React.Fragment>
-                                                        <Typography
-                                                            component="span"
-                                                            variant="body2"
-                                                            className={classes.inline}
-                                                            color="textPrimary"
-                                                        >
-                                                            Wut {index}
-                                                        </Typography>
-                                                        {' — Weird text'}
-                                                    </React.Fragment>
-                                                }
-                                            />
-                                        </ListItem>
 
-                                    ))}
+                                        ))}
                                     <Link href="#" onClick={() => props.history.push('/upcomingEvents')} className={classes.centralize}>
                                         {'Click to see all upcoming events.'}
                                     </Link>
@@ -396,44 +454,28 @@ function UserHeader(props) {
                         <List component="div" disablePadding>
                             <ListItem className={classes.nested}>
                                 <List>
-                                    {['Ayfer A', 'Beyfer B', 'Ceyfer C'].map((text, index) => (
-
-                                        <ListItem button alignItems="flex-start">
+                                    {discoverableEvents.map((event, index) => (
+                                        index < 5 ?
+                                            <ListItem button alignItems="flex-start">
                                             <ListItemAvatar>
-                                                <Avatar alt={text} src="/static/images/avatar/3.jpg" />
+                                            <Avatar alt={event.title} src="/static/images/avatar/3.jpg" />
                                             </ListItemAvatar>
 
                                             <ListItemText
-                                                primary={
-                                                    index === 0 ?
-                                                        <React.Fragment>
-                                                            <Typography
-                                                                component="span"
-                                                                variant="body2"
-                                                                className={classes.inline}
-                                                                color="textPrimary"
-                                                            >
-                                                                {text}
-                                                            </Typography>
-                                                            { '  <<Sponsored>>'}
-                                                        </React.Fragment>
-                                                        : text}
-                                                secondary={
-                                                    <React.Fragment>
-                                                        <Typography
-                                                            component="span"
-                                                            variant="body2"
-                                                            className={classes.inline}
-                                                            color="textPrimary"
-                                                        >
-                                                            Wut {index}
-                                                        </Typography>
-                                                        {' — Weird text'}
-                                                    </React.Fragment>
-                                                }
+                                            primary={event.title}
+                                            secondary={
+                                                <Typography
+                                                    component="span"
+                                                    variant="body2"
+                                                    className={classes.inline}
+                                                    color="textPrimary"
+                                                >
+                                                    {event.start.toString()}
+                                                </Typography>
+                                            }
                                             />
-                                        </ListItem>
-
+                                            </ListItem>
+                                        : <div className={classes.hide}/>
                                     ))}
                                     <Link href="#" onClick={() => props.history.push('/discoverEvents')} className={classes.centralize}>
                                         {'Click to discover all relevant events.'}
