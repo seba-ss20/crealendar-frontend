@@ -1,5 +1,4 @@
 # crealendar-frontend
 
 run:
-  npm install
-  npm start
+  'npm install' then 'npm start'
