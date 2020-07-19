@@ -21,7 +21,7 @@ export class EventListRow extends React.Component {
                 <TableCell>
                     {this.props.event.source !== undefined && this.props.event.source !== 'calendar'
                         ? <Link to={`/events/${this.props.event._id}`}>{this.props.event.name}</Link>
-                        :   this.props.event.name
+                        :   this.props.event.name + ' [From Calendar]'
                     }
                 </TableCell>
 
