@@ -15,6 +15,7 @@ import {withRouter} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
+        alignItems: 'center',
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -22,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        alignItems: 'center',
     },
 }));
 
@@ -48,7 +50,7 @@ function Settings(props) {
     return (
         <div className={classes.root}>
             <form onSubmit={handleSubmit}>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} alignItems="center" justify="center">
                     <Grid item xs={12}>
                         <TextField
                             error={mobilePhoneError /*|| (signupError && signupError.length > 0)*/}
@@ -84,7 +86,6 @@ function Settings(props) {
                 </Grid>
                 <Button
                     type="submit"
-                    fullWidth
                     variant="contained"
                     color="primary"
                     className={classes.submit}

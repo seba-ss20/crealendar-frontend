@@ -10,6 +10,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import UserHeader from "../components/UserHeader";
 import Settings from "../components/Settings";
 import AccountSetup from "../components/AccountSetup";
+import Grid from "@material-ui/core/Grid";
 
 // TODO:: ON EMAIL CHANGE, Change ID of all events as well.
 // TODO:: Disable OK Button of calendar upload if there is no item uploaded.
@@ -26,8 +27,11 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(20),
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
     },
+    grid: {
+        alignItems: 'center',
+    }
+
 
 }));
 
@@ -40,6 +44,8 @@ function SettingsView(props) {
             <CssBaseline />
             <UserHeader history={props.history}/>
             <div className={classes.paper}>
+                <Grid container spacing={3} alignItems="center">
+                    <Grid item xs={11} >
                 <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -52,6 +58,8 @@ function SettingsView(props) {
                         <AccountSetup></AccountSetup>
                     </AccordionDetails>
                 </Accordion>
+                    </Grid>
+                    <Grid item xs={11}  >
                 <Accordion>
                     <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
@@ -60,12 +68,16 @@ function SettingsView(props) {
                     >
                         <Typography className={classes.heading}>Telegram and Phone setup</Typography>
                     </AccordionSummary>
+                    <div className={classes.grid}>
                     <AccordionDetails>
-                        <div>
+
                             <Settings></Settings>
-                        </div>
+
                     </AccordionDetails>
+                    </div>
                 </Accordion>
+                    </Grid>
+                </Grid>
             </div>
         </div>
     )
