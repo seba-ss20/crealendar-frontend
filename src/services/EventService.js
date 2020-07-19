@@ -95,8 +95,18 @@ export default class EventService {
     }
 
     static createEvent(userId,event) {
+        event['source'] = 'crealendar';
         return new Promise((resolve, reject) => {
             HttpService.post(`${eventURL}/users/${userId}/addEvent`, event, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
+    static participateEvent(userId,event){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${eventURL}/users/${userId}/addUser`, event, function(data) {
                 resolve(data);
             }, function(textStatus) {
                 reject(textStatus);

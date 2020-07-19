@@ -168,6 +168,7 @@ function UserHeader(props) {
     else{
         console.log('AVATAR IS NULL');
     }
+
     const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
@@ -370,7 +371,7 @@ function UserHeader(props) {
                                         </ListItem>
 
                                     ))}
-                                    <Link href="#" onClick={preventDefault} className={classes.centralize}>
+                                    <Link href="#" onClick={() => props.history.push('/upcomingEvents')} className={classes.centralize}>
                                         {'Click to see all upcoming events.'}
                                     </Link>
                                 </List>

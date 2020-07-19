@@ -8,19 +8,19 @@ import Typography from "@material-ui/core/Typography";
 
 
 const root = {
-        display: 'flex',
-        marginTop: '100px'
+    display: 'flex',
+    marginTop: '100px'
 };
 const paperTop = {
-        position:'relative',
-        borderStyle:'groove',
-        marginTop: '40px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+    position:'relative',
+    borderStyle:'groove',
+    marginTop: '40px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 };
 
-export class DiscoverNewEventsView extends React.Component {
+export class UpcomingEventsView extends React.Component {
 
     constructor(props) {
         super(props);
@@ -43,19 +43,18 @@ export class DiscoverNewEventsView extends React.Component {
                 for(let i = 0 ; i < data.length; i++){
                     let isOwner = data[i].owner === user['_id']
                     let isParticipant = data[i].participants !== undefined && data[i].participants.includes(user['_id']);
-                    if(!(isOwner || isParticipant)){
-
+                    if((isOwner || isParticipant)){
                         events.push(data[i]);
                     }
                 }
 
-            this.setState({
-                data: [...events],
-                loading: false
-            });
+                this.setState({
+                    data: [...events],
+                    loading: false
+                });
             })
             .catch((e) => {
-            console.error(e);
+                console.error(e);
             });
     }
 

@@ -16,6 +16,7 @@ import ls from 'local-storage'
 import Settings from "./components/Settings";
 import AccountSetupView from "./views/AccountSetupView";
 import SettingsView from "./views/SettingsView";
+import {UpcomingEventsView} from "./views/UpcomingEventsView";
 
 
 class App extends Component {
@@ -37,6 +38,7 @@ class App extends Component {
 			<Route path="/createPromotion" key="/createPromotion" component={PromotionFormPageView} />,
 			<Route path="/editPromotion/:id" key="/editPromotion" render={(props) => <PromotionFormPageView {...props} /> }/>,
 			<Route path="/discoverEvents" key="/discoverEvents" component={DiscoverNewEventsView} />,
+			<Route path="/upcomingEvents" key="/upcomingEvents" component={UpcomingEventsView} />,
 			<Route path="/" key="/welcome" component={Welcome} />,
 		];
 		
