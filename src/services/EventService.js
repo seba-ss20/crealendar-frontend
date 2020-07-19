@@ -1,6 +1,6 @@
 import HttpService from './HttpService';
 import {eventURL} from '../config';
-
+import axios from 'axios';
 
 export default class EventService {
 
@@ -40,11 +40,24 @@ export default class EventService {
         });
     }
 
-
+    // static getImage(src){
+    //     return new Promise((resolve, reject) => {
+    //         HttpService.get(`${eventURL}/${eventId}`, function(data) {
+    //             if(data !== undefined || Object.keys(data).length !== 0) {
+    //                 resolve(data);
+    //             }
+    //             else {
+    //                 reject('Error while retrieving event');
+    //             }
+    //         }, function(textStatus) {
+    //             reject(textStatus);
+    //         });
+    //     });
+    // }
     static getEvent(eventId) {
         return new Promise((resolve, reject) => {
             HttpService.get(`${eventURL}/${eventId}`, function(data) {
-                if(data != undefined || Object.keys(data).length !== 0) {
+                if(data !== undefined || Object.keys(data).length !== 0) {
                     resolve(data);
                 }
                 else {
@@ -88,6 +101,24 @@ export default class EventService {
             }, function(textStatus) {
                 reject(textStatus);
             });
+        });
+    }
+    static addImage(userId,event_id,image) {
+        return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('image',image);
+            formData.append('_id',event_id);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            }
+            return axios.post(`${eventURL}/users/${userId}/addImage`, formData,config,);
+            // HttpService.post(`${eventURL}/users/${userId}/addEvent`, event, function(data) {
+            //     resolve(data);
+            // }, function(textStatus) {
+            //     reject(textStatus);
+            // });
         });
     }
 
