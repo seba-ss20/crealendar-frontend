@@ -24,6 +24,13 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import { FixedSizeList } from 'react-window';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+// success dialog
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -75,17 +82,22 @@ const useStyles = makeStyles(theme => ({
 }
 ));
 
-type Props = {
-    users: any,
-};
 
 
 function AddFriendsList(props: Props) {
 	
-	const classes = useStyles();
-	const { eventData } = props;
+	const {
+		eventData,
+        open,
+		onClose,
+    } = props;
 	
-	const [open, setOpen] = useState(false);
+	const classes = useStyles();
+	
+	const [openAutocomplete, setOpenAutocomplete] = useState(false);
+	//onClick={handleClose}
+	const [openList, setOpenList] = useState(true);
+	const [openDialog, setOpenDialog] = useState(false);
 	
 	
 	const [selectedTags, setSelectedTags] = useState([]);
@@ -96,18 +108,12 @@ function AddFriendsList(props: Props) {
 		{name: 'Third User'},
 	]);
 	const [matchingUsers, setMatchingUsers] = useState([]);
-	const loading = open && matchingUsers.length === 0;
+	const loading = openAutocomplete && matchingUsers.length === 0;
 	
 	const [allUsers, setAllUsers] = useState();
 	
-	function sleep(delay = 0) {
-	  return new Promise((resolve) => {
-		setTimeout(resolve, delay);
-	  });
-	}
 	
 	React.useEffect(() => {
-		
 		let active = true;
 
 		if (!loading) {
@@ -137,10 +143,14 @@ function AddFriendsList(props: Props) {
 	  }, [loading]);
 	  
 	React.useEffect(() => {
-		if (!open) {
+		if (!openAutocomplete) {
 		  setMatchingUsers([]);
 		}
-	  }, [open]);
+	  }, [openAutocomplete]);
+	  
+	const handleCloseDialog = () => {
+		setOpenDialog(false);
+	  };
 	
 	// handles the highlighting in the recommended users for invites list
 	const onClick = index => () => {
@@ -170,6 +180,7 @@ function AddFriendsList(props: Props) {
 				console.error(err);
 			})
 		})
+		setOpenDialog(true);
 	};
 		
 	
@@ -178,22 +189,21 @@ function AddFriendsList(props: Props) {
 			<CssBaseline />
 				<div className={classes.paper}>
 					<Typography component="h1" variant="h5" >
-                    See who might be interested
+						See who might be interested
 					</Typography>
 					<div className={classes.information}></div>
 					<div className={classes.search}>
-						<div>
 							<Autocomplete
 								multiple
 								selectOnFocus
 								clearOnBlur
 								handleHomeEndKeys
-								open={open}
+								open={openAutocomplete}
 							    onOpen={() => {
-								  setOpen(true);
+								  setOpenAutocomplete(true);
 							    }}
 							    onClose={() => {
-								  setOpen(false);
+								  setOpenAutocomplete(false);
 							    }}
 								loading={loading}
 								onChange={(event, value, reason) => setSelectedTags(value)}
@@ -209,29 +219,48 @@ function AddFriendsList(props: Props) {
 											classes={{root: classes.inputRoot,}} />
 									  )}
 							  />
-						</div>
 					</div>
 					<div className={classes.information}></div>
-					<div className={classes.root}>
-						<List style={{ maxHeight: 400, minHeight: 400, maxWidth: 300, minWidth: 300 }} className={classes.listRoot}>
-							{items.map((item, index) => (
-								<ListItem key={index} button selected={item.selected} onClick={onClick(index)} >
-									<ListItemText primary={item.name}>
-									</ListItemText>
-								</ListItem>
-							))}
-						</List>
+						<div className={classes.root}>
+							<List style={{ maxHeight: 400, minHeight: 400, maxWidth: 300, minWidth: 300 }} className={classes.listRoot}>
+								{items.map((item, index) => (
+									<ListItem key={index} button selected={item.selected} onClick={onClick(index)} >
+										<ListItemText primary={item.name}>
+										</ListItemText>
+									</ListItem>
+								))}
+							</List>
+						
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							color="primary"
+							style={{ marginTop: 22 }}
+							onClick={sendTelegramMessage}
+						>
+							Send an invite
+						</Button>
+						
 					</div>
-					<Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        style={{ marginTop: 22 }}
-						onClick={sendTelegramMessage}
-                    >
-                        Send an invite
-                    </Button>
+					<Dialog
+							open={openDialog}
+							onClose={handleCloseDialog}
+							aria-labelledby="alert-dialog-title"
+							aria-describedby="alert-dialog-description"
+						  >
+							<DialogTitle id="alert-dialog-title">{"You successfully send out invite(s)!"}</DialogTitle>
+							<DialogContent>
+							  <DialogContentText id="alert-dialog-description">
+								Please wait for a reply.
+							  </DialogContentText>
+							</DialogContent>
+							<DialogActions>
+							  <Button onClick={onClose} color="primary">
+								Okay
+							  </Button>
+							</DialogActions>
+						</Dialog>
 				</div>
 		</Container>
 	);

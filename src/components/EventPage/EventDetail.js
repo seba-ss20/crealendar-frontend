@@ -151,7 +151,6 @@ const EventDetail = (props: Props) => {
 						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />}>Invite friends</Button>
 						<AddFriendsDialog
 							open={open}
-							setOpen={setOpen}
 							onCancel={handleClose}
 							eventData={eventData}
 						/>

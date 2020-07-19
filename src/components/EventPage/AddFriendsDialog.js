@@ -13,35 +13,33 @@ type Props = {
     open: Boolean,
     onPrimaryOption: () => void,
     onSecondaryOption: () => void,
-    onCancel: () => void,
 	eventData: any,
 };
 
 const AddFriendsDialog = (props: Props) => {
+
     const {
 		eventData,
-        onCancel,
         open,
-        setOpen,
-		onPrimaryOption
+		onClose,
     } = props;
 
 	return (
 		<Dialog
-            onClose={onCancel}
+            onClose={onClose}
             open={open}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
         >
 			<DialogContent>
                 <AddFriendsList
-                    setOpen={setOpen}
-					closePopUp={onPrimaryOption}
 					eventData={eventData}
+					open={open}
+					onClose={onClose}
                 />
             </DialogContent>
 			<DialogActions>
-                <Button onClick={onCancel} color="primary" autoFocus>
+                <Button onClick={onClose} color="primary" autoFocus>
                     Cancel
                 </Button>
             </DialogActions>
