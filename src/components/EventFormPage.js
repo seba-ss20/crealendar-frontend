@@ -24,6 +24,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import {PhotoCamera} from "@material-ui/icons";
 import {eventURL} from "../config";
 
+
+
 const useStyles = makeStyles(theme => ({
 
     root: {
