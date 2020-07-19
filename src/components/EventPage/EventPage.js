@@ -45,6 +45,19 @@ class EventPage extends Component<Props, State> {
 			}
 
 	}
+	async removeFromCalendar(event) {
+		try {
+			let user = ls.get('userObject');
+			let userId = user['_id'];
+			event.owner = userId;
+			let ret = await EventService.withdrawEvent(userId,event);
+			this.props.history.push('/user');
+		} catch(err) {
+			console.error(err);
+			this.setState(Object.assign({}, this.state, {error: 'Error while creating event'}));
+		}
+
+	}
 	
 	
 	render() {
@@ -65,7 +78,7 @@ class EventPage extends Component<Props, State> {
 		return (
 			<div>
 			    <UserHeader history={this.props.history}/>
-				<EventDetail eventData={this.state.event} onAddtoCalendar={(event) => this.addToCalendar(event)} />
+				<EventDetail eventData={this.state.event} onAddtoCalendar={(event) => this.addToCalendar(event)} onDeleteFromCalendar={(event) => this.removeFromCalendar(event)} />
 			</div>
 		)
 	}

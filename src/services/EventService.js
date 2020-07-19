@@ -113,6 +113,15 @@ export default class EventService {
             });
         });
     }
+    static withdrawEvent(userId,event){
+        return new Promise((resolve, reject) => {
+            HttpService.post(`${eventURL}/users/${userId}/deleteUser`, event, function(data) {
+                resolve(data);
+            }, function(textStatus) {
+                reject(textStatus);
+            });
+        });
+    }
     static addImage(userId,event_id,image) {
         return new Promise((resolve, reject) => {
             const formData = new FormData();
