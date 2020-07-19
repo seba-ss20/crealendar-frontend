@@ -250,7 +250,7 @@ function OrganizerHeader(props) {
                 </ListItem>
                 <ListItem>
                     <Link href="#" onClick={preventDefault} className={classes.centralize}>
-                        {user['username']}
+                        {user['firstname'] + ' ' + user['lastname'] }
                     </Link>
                 </ListItem>
                 <Divider />

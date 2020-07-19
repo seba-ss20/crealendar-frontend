@@ -1,6 +1,7 @@
 import HttpService from './HttpService';
-import {baseURL} from '../config';
+import {baseURL, eventURL} from '../config';
 import ls from 'local-storage';
+import axios from "axios";
 
 export default class UserService {
 
@@ -81,6 +82,19 @@ export default class UserService {
             }, function(textStatus) {
                 reject(textStatus);
             });
+        });
+    }
+    static addAvatar(userId,image) {
+        return new Promise((resolve, reject) => {
+            const formData = new FormData();
+            formData.append('avatar',image);
+            formData.append('_id',userId);
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+            return axios.post(`${baseURL}/uploadAvatar`, formData,config);
         });
     }
 

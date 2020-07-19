@@ -210,213 +210,63 @@ function AccountSetup(props) {
         console.log(calendar);
     }
 
+    function readFile(file){
+        return new Promise((resolve, reject) => {
+            var fr = new FileReader();
+            fr.onload = () => {
+                resolve(fr.result )
+            };
+            fr.readAsText(file);
+        });
+    }
+
     async function handleDialogCloseOK() {
         setUploadDialogOpen(false);
         console.log('Operation OK');
         console.log(calendar);
 
-        // const icalExpander = new IcalExpander({calendar,maxIterations : 1000});
-        // const events = icalExpander.between(new Date('2017-01-24T00:00:00.000Z'), new Date('2020-03-30T00:00:00.000Z'));
-        //
-        // const mappedEvents = events.events.map(e => ({ startDate: e.startDate, summary: e.summary }));
-        // const mappedOccurrences = events.occurrences.map(o => ({ startDate: o.startDate, summary: o.item.summary }));
-        // const allEvents = [].concat(mappedEvents, mappedOccurrences);
-        //
-        // console.log(allEvents.map(e => `${e.startDate.toJSDate().toISOString()} - ${e.summary}`).join('\n'));
-        var reader = new FileReader();
-        reader.onload = function (progressEvent) {
-            // Entire file
-            // return this.result;
-            console.log(this.result);
-
-            // // By lines
-            // let res = '';
-            // var lines = this.result.split('\n');
-            // for(var line = 0; line < lines.length; line++){
-            //     console.log(lines[line]);
-            //     res += lines[line]+'\n';
-            // }
-            // return res;
-        };
-        ;
-        // var iCalendarData_ =  reader.readAsText(calendar);
-        // console.log(iCalendarData);
-        let iCalendarData = 'BEGIN:VCALENDAR\n' +
-            'PRODID:-//Google Inc//Google Calendar 70.9054//EN\n' +
-            'VERSION:2.0\n' +
-            'CALSCALE:GREGORIAN\n' +
-            'METHOD:PUBLISH\n' +
-            'X-WR-CALNAME:sebawebcoursetrial@gmail.com\n' +
-            'X-WR-TIMEZONE:Europe/Istanbul\n' +
-            'BEGIN:VTIMEZONE\n' +
-            'TZID:Europe/Istanbul\n' +
-            'X-LIC-LOCATION:Europe/Istanbul\n' +
-            'BEGIN:STANDARD\n' +
-            'TZOFFSETFROM:+0300\n' +
-            'TZOFFSETTO:+0300\n' +
-            'TZNAME:+03\n' +
-            'DTSTART:19700101T000000\n' +
-            'END:STANDARD\n' +
-            'END:VTIMEZONE\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART:20200708T073000Z\n' +
-            'DTEND:20200708T083000Z\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:2061qlfnqckfqis8avjqfja2aa@google.com\n' +
-            'CREATED:20200708T154041Z\n' +
-            'DESCRIPTION:First Event\n' +
-            'LAST-MODIFIED:20200708T154041Z\n' +
-            'LOCATION:Münih\\, Almanya\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:First\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;TZID=Europe/Istanbul:20200709T090000\n' +
-            'DTEND;TZID=Europe/Istanbul:20200709T100000\n' +
-            'RRULE:FREQ=WEEKLY;BYDAY=TH\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:6gioqunb7rmbltjbqf4utrqlis@google.com\n' +
-            'CREATED:20200708T154123Z\n' +
-            'DESCRIPTION:Pay the bills\n' +
-            'LAST-MODIFIED:20200708T154123Z\n' +
-            'LOCATION:Münih\\, Almanya\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:Work\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;TZID=Europe/Istanbul:20200709T113000\n' +
-            'DTEND;TZID=Europe/Istanbul:20200709T123000\n' +
-            'RRULE:FREQ=WEEKLY;BYDAY=FR,MO,TH,TU,WE\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:74k227120cdjgbe77n08722djm@google.com\n' +
-            'CREATED:20200708T160553Z\n' +
-            'DESCRIPTION:\n' +
-            'LAST-MODIFIED:20200708T160553Z\n' +
-            'LOCATION:\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:Study\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;VALUE=DATE:20200713\n' +
-            'DTEND;VALUE=DATE:20200714\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:3k89e291hrlc2aimnjj57tjfep@google.com\n' +
-            'CREATED:20200708T160620Z\n' +
-            'DESCRIPTION:\n' +
-            'LAST-MODIFIED:20200708T160621Z\n' +
-            'LOCATION:\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:All-day corona party\n' +
-            'TRANSP:TRANSPARENT\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;TZID=Europe/Istanbul:20200713T133000\n' +
-            'DTEND;TZID=Europe/Istanbul:20200713T143000\n' +
-            'RRULE:FREQ=MONTHLY;BYDAY=2MO\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:75b05nbkpi0boa7f92antjb11i@google.com\n' +
-            'CREATED:20200708T160641Z\n' +
-            'DESCRIPTION:\n' +
-            'LAST-MODIFIED:20200708T160659Z\n' +
-            'LOCATION:\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:Monthly Status Report\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;TZID=Europe/Istanbul:20200714T143000\n' +
-            'DTEND;TZID=Europe/Istanbul:20200714T153000\n' +
-            'RRULE:FREQ=YEARLY\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:5tefud0nhvam6oall1ia1lmunm@google.com\n' +
-            'CREATED:20200708T160733Z\n' +
-            'DESCRIPTION:\n' +
-            'LAST-MODIFIED:20200708T160740Z\n' +
-            'LOCATION:\n' +
-            'SEQUENCE:1\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:Yearly Neighbor visit\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;TZID=Europe/Istanbul:20200715T153000\n' +
-            'DTEND;TZID=Europe/Istanbul:20200715T163000\n' +
-            'RRULE:FREQ=WEEKLY;BYDAY=FR,MO,TH,TU,WE\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:3m56iskqsisltcllc10k1eal7l@google.com\n' +
-            'CREATED:20200708T160812Z\n' +
-            'DESCRIPTION:\n' +
-            'LAST-MODIFIED:20200708T160812Z\n' +
-            'LOCATION:\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:Weekday sport\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'BEGIN:VEVENT\n' +
-            'DTSTART;TZID=Europe/Istanbul:20200714T040000\n' +
-            'DTEND;TZID=Europe/Istanbul:20200714T050000\n' +
-            'RRULE:FREQ=DAILY\n' +
-            'DTSTAMP:20200710T015455Z\n' +
-            'UID:5ncm1elj273f2ik75ddvkd0ipc@google.com\n' +
-            'CREATED:20200710T015408Z\n' +
-            'DESCRIPTION:\n' +
-            'LAST-MODIFIED:20200710T015408Z\n' +
-            'LOCATION:\n' +
-            'SEQUENCE:0\n' +
-            'STATUS:CONFIRMED\n' +
-            'SUMMARY:DAILY\n' +
-            'TRANSP:OPAQUE\n' +
-            'END:VEVENT\n' +
-            'END:VCALENDAR';
-        var jcalData = ICAL.parse(iCalendarData);
-        // console.log(jcalData);
-        var comp = new ICAL.Component(jcalData);
-        var vevents = comp.getAllSubcomponents('vevent');
-        console.log(vevents);
-        let crealendar_events = [];
-        vevents.map((vevent) => {
-            let crealendar_event = {}
-            console.log('DTSTART');
-            let ical_dtstart = vevent.getFirstPropertyValue('dtstart');
-            crealendar_event.dateStart = ICAL.design.icalendar.value['date-time'].undecorate(ical_dtstart);
-            let ical_dtend = vevent.getFirstPropertyValue('dtend');
-            crealendar_event.dateEnd = ICAL.design.icalendar.value['date-time'].undecorate(ical_dtend);
-            let ical_created = vevent.getFirstPropertyValue('created');
-            crealendar_event.created = ICAL.design.icalendar.value['date-time'].undecorate(ical_created);
-            crealendar_event.name = vevent.getFirstPropertyValue('summary');
-            crealendar_event.location = vevent.getFirstPropertyValue('location');
-            crealendar_event.description = vevent.getFirstPropertyValue('description');
-            crealendar_event.status = vevent.getFirstPropertyValue('status');
-            crealendar_event.owner = user['_id'];
-            let id = sha256(crealendar_event.created + '' + crealendar_event.owner)
-            crealendar_event._id = id.substring(0, 24);
-            let ical_recur = vevent.getFirstPropertyValue('rrule');
-            if (ical_recur !== null && ical_recur !== undefined) {
-                console.log(ical_recur);
-
-                crealendar_event.recurrence = ICAL.design.icalendar.value['recur'].undecorate(ical_recur); // Returns { freq: "WEEKLY", count: 2 }
-                console.log('EVENT ID');
-                console.log(crealendar_event.recurrence);
-            }
-            crealendar_events.push(crealendar_event);
-        });
-        await uploadCalendar(user_username, crealendar_events)
-            .then(response  => {
+        readFile(calendar)
+            .then(res => {
+                var crealendar_events = [];
+                // Entire file
+                var iCalendarData = res;
+                var jcalData = ICAL.parse(iCalendarData);
+                var comp = new ICAL.Component(jcalData);
+                var vevents = comp.getAllSubcomponents('vevent');
+                console.log(vevents);
+                for(let k = 0 ; k < vevents.length ; k++){
+                    let vevent = vevents[k];
+                    let crealendar_event = {};
+                    let ical_dtstart = vevent.getFirstPropertyValue('dtstart');
+                    crealendar_event.dateStart = ICAL.design.icalendar.value['date-time'].undecorate(ical_dtstart);
+                    let ical_dtend = vevent.getFirstPropertyValue('dtend');
+                    crealendar_event.dateEnd = ICAL.design.icalendar.value['date-time'].undecorate(ical_dtend);
+                    let ical_created = vevent.getFirstPropertyValue('created');
+                    crealendar_event.created = ICAL.design.icalendar.value['date-time'].undecorate(ical_created);
+                    crealendar_event.name = vevent.getFirstPropertyValue('summary');
+                    crealendar_event.location = vevent.getFirstPropertyValue('location');
+                    crealendar_event.description = vevent.getFirstPropertyValue('description');
+                    crealendar_event.status = vevent.getFirstPropertyValue('status');
+                    crealendar_event.owner = user['_id'];
+                    let id = sha256(crealendar_event.created + '' + crealendar_event.owner)
+                    crealendar_event._id = id.substring(0, 24);
+                    let ical_recur = vevent.getFirstPropertyValue('rrule');
+                    if (ical_recur !== null && ical_recur !== undefined) {
+                        crealendar_event.recurrence = ICAL.design.icalendar.value['recur'].undecorate(ical_recur); // Returns { freq: "WEEKLY", count: 2 }
+                    }
+                    crealendar_events.push(crealendar_event);
+                }
+                console.log('crealendar_events');
+                console.log(crealendar_events);
+                return uploadCalendar(user_username, crealendar_events);
+            }).then(response  => {
                 setCalendarUploaded(response.calendar)
                 console.log(response);
-            });
-            // .catch((err) => console.log('ERR' + err));
-        // uploadCalendar(user_username,calendar)
-        // setCalendarUploaded(true);
+            }).catch(err => {
+                console.log('err');
+                console.log(err);
+        });
+
     }
     function handleSubmit(event) {
         event.preventDefault();

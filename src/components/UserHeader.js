@@ -43,6 +43,8 @@ import logo from "../images/logo_withbackground.jpg";
 import Button from "@material-ui/core/Button";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ls from 'local-storage';
+import Tooltip from "@material-ui/core/Tooltip";
+import {baseURL,eventURL} from "../config";
 const localizer = momentLocalizer(moment)
 
 
@@ -145,6 +147,10 @@ const useStyles = makeStyles(theme => ({
             display: 'flex',
         },
     },
+    imageInput:{
+        margin:'auto',
+        display: 'none',
+    },
 }));
 
 // TODO:: Find an OOP variant for Organizer/User headers-inheritance.
@@ -152,10 +158,21 @@ const useStyles = makeStyles(theme => ({
 function UserHeader(props) {
     const classes = useStyles();
     const theme = useTheme();
-
+    let user=ls.get('userObject');
+    let initAvatar;
+    if(user['avatar'] !== undefined){
+        console.log('avatar');
+        console.log(user['avatar']);
+        initAvatar = user.avatar;
+    }
+    else{
+        console.log('AVATAR IS NULL');
+    }
     const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
     const [discoverEventsOpen, setDiscoverEventsOpen] = React.useState(false);
+    const [selectedAvatar, setSelectedAvatar]  = React.useState(initAvatar);
+    const [selectedAvatarBinary, setSelectedAvatarBinary]  = React.useState(null);
     const [calendarUploaded, setCalendarUploaded] = React.useState(true);
 
     const [events, setEvents] = React.useState([
@@ -174,7 +191,8 @@ function UserHeader(props) {
     const handleDrawerClose = () => { setAppBarOpen(false); };
     let preventDefault;
     const menuId = 'primary-search-account-menu';
-    let user=ls.get('userObject');
+
+
     const defaultProps = {
         bgcolor: 'background.paper',
         m: 1,
@@ -184,6 +202,25 @@ function UserHeader(props) {
     function logout() {
         UserService.logout();
         props.history.push('/');
+    }
+
+    function handleAvatarUpload(event) {
+        let file = event.target.files[0];
+        setSelectedAvatarBinary(file);
+        const reader = new FileReader();
+        let url = reader.readAsDataURL(file);
+        reader.onloadend = function(e) {
+            setSelectedAvatar(reader.result);
+        };
+        UserService.addAvatar(user['username'],file)
+            .then(data => {
+                console.log('Success');
+                console.log(data);
+            })
+            .catch(reason => {
+                console.log('Fail');
+                console.log(reason);
+            });
     }
 
     return (
@@ -263,11 +300,30 @@ function UserHeader(props) {
                 <Divider />
 
                 <ListItem button alignItems>
-                    <Avatar alt={user['username']} src="/public/calendar_icon.png" className={classes.large}/>
+                    <input
+                        accept="image/*"
+                        className={classes.imageInput}
+                        id="avatar-button-file"
+                        type="file"
+                        onChange={(event) => {
+                            handleAvatarUpload(event);
+                        }}
+                    />
+                    <label htmlFor="avatar-button-file"
+                    className={classes.centralize}>
+                        <Tooltip title="Click to upload avatar!" placement="top">
+                            <Avatar
+                                alt={user['username']}
+                                src={
+                                    selectedAvatar !== null ? `${baseURL}/avatars/`+user['username'] : ''} className={classes.large
+                                }
+                            />
+                        </Tooltip>
+                    </label>
                 </ListItem>
                 <ListItem>
                     <Link href="#" onClick={preventDefault} className={classes.centralize}>
-                        {user['username']}
+                        {user['firstname'] + ' ' + user['lastname'] }
                     </Link>
                 </ListItem>
                 <Divider />
