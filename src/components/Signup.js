@@ -45,7 +45,7 @@ function Signup(props) {
     const [passwordError, setPasswordError] = useState("");
 	const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [switchChecked, setSwitchChecked] = useState(false);
-    const [userRole, setUserRole] = useState("");
+    const [userRole, setUserRole] = useState("User");
 
 	
 	function handleSubmit(event) {

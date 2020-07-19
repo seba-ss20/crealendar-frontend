@@ -223,6 +223,10 @@ function UserHeader(props) {
             });
     }
 
+    function settings() {
+        props.history.push('/settings');
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={clsx(classes.appBar, {
@@ -271,7 +275,9 @@ function UserHeader(props) {
                             <AccountCircle />
                         </IconButton>
                         <IconButton aria-label="show 4 new mails" color="inherit">
-                            <SettingsIcon />
+                            <SettingsIcon
+                                onClick={settings}
+                            />
                         </IconButton>
                         <IconButton color="inherit">
                             <ExitToAppIcon
@@ -314,9 +320,8 @@ function UserHeader(props) {
                         <Tooltip title="Click to upload avatar!" placement="top">
                             <Avatar
                                 alt={user['username']}
-                                src={
-                                    selectedAvatar !== null ? `${baseURL}/avatars/`+user['username'] : ''} className={classes.large
-                                }
+                                src={selectedAvatar !== null ? `${baseURL}/avatars/`+user['username'] : ''}
+                                className={classes.large}
                             />
                         </Tooltip>
                     </label>
