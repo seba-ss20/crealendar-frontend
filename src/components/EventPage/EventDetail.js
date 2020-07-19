@@ -92,10 +92,9 @@ type State = {
 };
 
 const EventDetail = (props: Props) => {
-	
-	const [open, setOpen] = useState(false);
-	const eventData = props.eventData;
 	const classes = useStyles();
+	const eventData = props.eventData;
+	const [open, setOpen] = useState(false);
 	const [location, setLocation] = useState(eventData.location);
 	const [coords, setCoords] = useState();
 	const googleKey = "AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70";
@@ -188,7 +187,7 @@ const EventDetail = (props: Props) => {
 						</Button>
 						<AddFriendsDialog
 							open={open}
-							onCancel={handleClose}
+							onClose={handleClose}
 							eventData={eventData}
 						/>
 					</div>

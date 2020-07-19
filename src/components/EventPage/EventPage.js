@@ -18,18 +18,6 @@ class EventPage extends Component<Props, State> {
 		this.state = { event: null, loading: true, error: false };
 	}
 	
-	//async getEventData() {
-		//const match = this.props;
-	//	const id = "5ef8a9626d39d91c4c6d8034"//match.params.id;
-	//	try {
-	//		const data = await axios.get('http://localhost:3001/events', {"_id":id})
-	//		console.log(data);
-	//		this.setState({data, loading:false});
-	//	} catch(error) {
-	//		console.log(error);
-	//	}
-	//}
-	
 	componentDidMount() {
 		const id = this.props.match.params.id;
 		axios.get(eventPageURL + '/events', { params: {"_id":id} }).then(response => {

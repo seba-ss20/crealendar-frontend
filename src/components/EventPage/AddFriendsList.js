@@ -104,10 +104,12 @@ function AddFriendsList(props: Props) {
 	
 	const [selectedTags, setSelectedTags] = useState([]);
 	const [username, setUsername] = useState('');
+	
+	// HARD CODED 
 	const [items, setItems] = useState([
-		{name: 'First User'},
-		{name: 'Second User'},
-		{name: 'Third User'},
+		{username: 'Merve Pinar', chatID: 620542823},
+		{username: 'İlteber Ayvacı', chatID: 848283900},
+		{username: 'Julia Hoffmann', chatID: 720148888},
 	]);
 	const [matchingUsers, setMatchingUsers] = useState([]);
 	const loading = openAutocomplete && matchingUsers.length === 0;
@@ -173,11 +175,12 @@ function AddFriendsList(props: Props) {
 		
 		// get logged in user _id and get username, mobile, chatID
 		let loggeduser = ls.get('userObject');
+		loggeduser.mobile = "01638146549";
 		
 		//send Telegram message invites to selected users
 		allUsers.map(user => {
-			const msg = "Hi there "+ user.username +"! "+ loggeduser.username +" send you an invite to "+ eventData.name +". You can reply to "+ loggeduser.telephoneNumber +" and discuss the details :)";
-			axios.post('https://api.telegram.org/bot1295767580:AAExKza2L_COUlhxn0aIX3ajJHK4EWRy5WI/sendMessage', {"chat_id": 720148888, "text": msg}).then(response => {
+			const msg = "Hi there "+ user.username +"! "+ loggeduser.username +" send you an invite to "+ eventData.name +". You can reply to "+ loggeduser.mobile +" and discuss the details :)";
+			axios.post('https://api.telegram.org/bot1295767580:AAExKza2L_COUlhxn0aIX3ajJHK4EWRy5WI/sendMessage', {"chat_id": user.chatID, "text": msg}).then(response => {
 				console.log(response.data);
 			}).catch(err => {
 				console.error(err);
@@ -229,9 +232,9 @@ function AddFriendsList(props: Props) {
 								{items.map((item, index) => (
 									<ListItem key={index} button selected={item.selected} onClick={onClick(index)} >
 										<ListItemIcon>
-										  <Avatar>{item.name[0]}</Avatar>
+										  <Avatar>{item.username[0]}</Avatar>
 										</ListItemIcon>
-										<ListItemText primary={item.name}>
+										<ListItemText primary={item.username}>
 										</ListItemText>
 									</ListItem>
 								))}
