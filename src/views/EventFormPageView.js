@@ -53,19 +53,19 @@ export class EventFormPageView extends React.Component {
                 event.owner = userId;
                 let ret = await EventService.createEvent(userId,event)
                     .then((event) => {
-                        if(image !== undefined){
+                        if(image !== undefined && image !== null){
                             let event_id = event["_id"];
                             return EventService.addImage(userId,event_id,image);
                         }
                     })
                     .then((response) => {
-                        console.log(response);
+                        this.props.history.push('/organizer');
                     })
                     .catch((reason) => {
                         console.log('Could not send the image');
                         console.log(reason);
                     });
-                this.props.history.push('/organizer');
+
             } catch(err) {
                 console.error(err);
                 this.setState(Object.assign({}, this.state, {error: 'Error while creating event'}));
@@ -77,20 +77,18 @@ export class EventFormPageView extends React.Component {
 
                 let ret = await EventService.updateEvent(event)
                     .then((event) => {
-                        if(image !== undefined){
+                        if(image !== undefined && image !== null){
                             let event_id = event["_id"];
                             return EventService.addImage(userId,event_id,image);
                         }
                     })
                     .then((response) => {
-                        console.log(response);
+                        this.props.history.push('/organizer');
                     })
                     .catch((reason) => {
                         console.log('Could not send the image');
                         console.log(reason);
                     });
-                // this.props.history.goBack();
-                this.props.history.push('/organizer');
             } catch(err) {
                 console.error(err);
                 this.setState(Object.assign({}, this.state, {error: 'Error while updating event'}));
