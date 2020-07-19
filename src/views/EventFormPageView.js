@@ -1,8 +1,9 @@
 import EventFormPage from '../components/EventFormPage'
 import EventService from '../services/EventService';
 import React from 'react';
+import axios from 'axios';
 import ls from 'local-storage'
-
+import {eventURL} from '../config';
 
 export class EventFormPageView extends React.Component {
 
@@ -44,13 +45,26 @@ export class EventFormPageView extends React.Component {
         }
     }
 
-    async updateEvent(event) {
+    async updateEvent(event,image) {
         if(this.state.event === undefined) {
             try {
                 let user = ls.get('userObject');
                 let userId = user['_id'];
                 event.owner = userId;
-                let ret = await EventService.createEvent(userId,event);
+                let ret = await EventService.createEvent(userId,event)
+                    .then((event) => {
+                        if(image !== undefined){
+                            let event_id = event["_id"];
+                            return EventService.addImage(userId,event_id,image);
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((reason) => {
+                        console.log('Could not send the image');
+                        console.log(reason);
+                    });
                 this.props.history.push('/organizer');
             } catch(err) {
                 console.error(err);
@@ -58,8 +72,25 @@ export class EventFormPageView extends React.Component {
             }
         } else {
             try {
-                let ret = await EventService.updateEvent(event);
-                this.props.history.goBack();
+                let user = ls.get('userObject');
+                let userId = user['_id'];
+
+                let ret = await EventService.updateEvent(event)
+                    .then((event) => {
+                        if(image !== undefined){
+                            let event_id = event["_id"];
+                            return EventService.addImage(userId,event_id,image);
+                        }
+                    })
+                    .then((response) => {
+                        console.log(response);
+                    })
+                    .catch((reason) => {
+                        console.log('Could not send the image');
+                        console.log(reason);
+                    });
+                // this.props.history.goBack();
+                this.props.history.push('/organizer');
             } catch(err) {
                 console.error(err);
                 this.setState(Object.assign({}, this.state, {error: 'Error while updating event'}));
@@ -72,6 +103,8 @@ export class EventFormPageView extends React.Component {
             return (<h2>Loading...</h2>);
         }
 
-        return (<EventFormPage event={this.state.event} onSubmit={(event) => this.updateEvent(event)} error={this.state.error} />);
+        return (<EventFormPage event={this.state.event} onSubmit={(event,image) => {
+            this.updateEvent(event,image)
+        }} error={this.state.error} />);
     }
 }

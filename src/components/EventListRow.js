@@ -19,7 +19,7 @@ export class EventListRow extends React.Component {
         return (
             <TableRow key={this.props.key}>
                 { user_role === 'Organizer'?
-                    <TableCell>{this.props.event.name} </TableCell>
+                    <TableCell> <Link to={`/events/${this.props.event._id}`}>{this.props.event.name} </Link></TableCell>
                     : <TableCell><Link to={`/events/${this.props.event._id}`}>{this.props.event.name}</Link></TableCell>
                 }
                 { user_role === 'Organizer'?

@@ -11,6 +11,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TelegramIcon from '@material-ui/icons/Telegram';
+import CardMedia from "@material-ui/core/CardMedia";
+
 //import axios from 'axios';
 //import { withRouter } from 'react-router-dom';
 
@@ -24,6 +26,8 @@ import Divider from "@material-ui/core/Divider";
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
 
 import AddFriendsDialog from './AddFriendsDialog'
+import {eventURL} from "../../config";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
         padding: 2,
         marginTop: 10,
     },
+	cover:{
+		height: 151,
+	}
 }));
 //AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70
 //  initialCenter={{lat: -1.2884, lng: 36.8233}} map position in nairobi
@@ -123,6 +130,20 @@ const EventDetail = (props: Props) => {
 						<Typography className={"MuiTypography--heading"} variant={"h4"} gutterBottom style={{ fontStyle: 'bold' }}>
 							{eventData.name}
 						</Typography>
+							<img
+								height="20%"
+								width="50%"
+								// className={classes.media}
+								src={`${eventURL}/images/`+eventData._id}
+							/>
+							{/*<Card>*/}
+							{/*	<CardMedia*/}
+							{/*		className={classes.cover}*/}
+							{/*		// image="/static/images/cards/live-from-space.jpg"*/}
+							{/*		src={`${eventURL}/images/`+eventData._id}*/}
+							{/*		title="Live from space album cover"*/}
+							{/*	/>*/}
+							{/*</Card>*/}
 						</Paper>
 					</Paper>
 				</Grid>

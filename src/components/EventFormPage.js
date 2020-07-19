@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { withRouter } from 'react-router-dom';
 import DateFnsUtils from '@date-io/date-fns';
+import axios from 'axios';
 import {DateTimePicker,MuiPickersUtilsProvider} from '@material-ui/pickers';
 import TextField from "@material-ui/core/TextField";
 import NumberFormat from 'react-number-format';
@@ -21,6 +22,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardMedia from "@material-ui/core/CardMedia";
 import {PhotoCamera} from "@material-ui/icons";
+import {eventURL} from "../config";
 
 const useStyles = makeStyles(theme => ({
 
@@ -71,7 +73,8 @@ function EventFormPage(props) {
     let initStateName,initStateDateStart,initStateDateEnd, initStateDesc, initStateLoc, initStateCap, initStatePrice, initSelectedImage;
     let initStateTags = [];
 
-    if(props.event != undefined){
+
+    if(props.event !== undefined){
         initStateName = props.event.name;
         initStateTags = props.event.tags;
         initStateDateEnd = props.event.dateEnd;
@@ -80,7 +83,12 @@ function EventFormPage(props) {
         initStateDesc = props.event.description;
         initStateLoc = props.event.location;
         initStatePrice = props.event.price;
-        initSelectedImage = props.event.image;
+
+        if(props.event.image){
+            initSelectedImage = `${eventURL}/images/`+props.event._id;
+
+        }
+
     }
 
     const [eventName, setEventName] = useState(initStateName);
@@ -92,7 +100,8 @@ function EventFormPage(props) {
     const [description, setDescription] = useState(initStateDesc);
     const [selectedTags, setSelectedTags]  = React.useState(initStateTags);
     const [selectedImage, setSelectedImage]  = React.useState(initSelectedImage);
-    const [selectedImageBinary, setSelectedImageBinary]  = React.useState(initSelectedImage);
+    const [selectedImageBinary, setSelectedImageBinary]  = React.useState(null);
+
     const [tags, setTags]  = React.useState(
         [
             {key: 0, data: 'Tennis'},
@@ -148,6 +157,7 @@ function EventFormPage(props) {
         e.preventDefault();
 
         let event = props.event;
+        let image;
         if (event === undefined) {
             event = {};
         }
@@ -160,9 +170,9 @@ function EventFormPage(props) {
         event.location = location;
         event.description = description;
         event.tags = selectedTags;
-        event.image = selectedImageBinary;
+        image = selectedImageBinary
 
-        props.onSubmit(event);
+        props.onSubmit(event,image);
     }
 
     function handleImageUpload (event) {
@@ -340,15 +350,7 @@ function EventFormPage(props) {
                                 :
                                 <div></div>
                             }
-                            {/*<React.Fragment>*/}
-                            {/*    <CardActionArea onClick={this.imageResetHandler}>*/}
-                            {/*        <img*/}
-                            {/*            width="100%"*/}
-                            {/*            className={classes.media}*/}
-                            {/*            src={this.state.selectedFile}*/}
-                            {/*        />*/}
-                            {/*    </CardActionArea>*/}
-                            {/*</React.Fragment>*/}
+
                         </Box>
                     <Box display="flex" justifyContent="flex-end" m={1} p={1}>
                     <Button id="submit" type="submit" startIcon={<SaveIcon />} className={classes.saveButton}
