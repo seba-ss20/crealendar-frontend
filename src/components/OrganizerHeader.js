@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import { makeStyles , useTheme} from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Drawer from '@material-ui/core/Drawer';
@@ -38,6 +38,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
 import UserService from "../services/UserService";
 import ls from 'local-storage';
+import EventService from "../services/EventService";
+const localizer = momentLocalizer(moment)
 
 const drawerWidth = 300;
 
@@ -145,7 +147,7 @@ function OrganizerHeader(props) {
 
     const [appBarOpen, setAppBarOpen] = React.useState(false);
     const [upcomingEventsOpen, setUpcomingEventsOpen] = React.useState(false);
-
+    const [events, setEvents] = React.useState([]);
     const handleClick = () => { setUpcomingEventsOpen(!upcomingEventsOpen ); };
     const handleDrawerOpen = () => { setAppBarOpen(true); };
     const handleDrawerClose = () => { setAppBarOpen(false); };
@@ -167,6 +169,33 @@ function OrganizerHeader(props) {
     //
     //      */
     // };
+    useEffect(()=>{
+        EventService.getEvents(user['_id'])
+            .then(response => {
+                let event_arr = [];
+                response.map(event => {
+
+                    let start = moment(new Date(event.dateStart));
+                    let end = moment(new Date(event.dateEnd));
+                    let title = event.name;
+                    console.log('start');
+                    console.log(start);
+                    console.log('end');
+                    console.log(end);
+                    event_arr.push({
+                        start: start,
+                        end: end,
+                        title: title,
+                    })
+
+                    event_arr.sort(function(a,b){
+                        return new Date(b.start) - new Date(a.start);
+                    });
+                });
+                setEvents(event_arr);
+                console.log(response);
+            });
+    },[]);
     let preventDefault;
     const menuId = 'primary-search-account-menu';
     let user=ls.get('userObject');
@@ -267,30 +296,29 @@ function OrganizerHeader(props) {
                         <List component="div" disablePadding>
                             <ListItem className={classes.nested}>
                                 <List>
-                                    {['Ayfer A', 'Beyfer B', 'Ceyfer C'].map((text, index) => (
+                                    {events.map((event, index) => (
+                                        index <5 ?
+                                            <ListItem button alignItems="flex-start">
+                                                <ListItemAvatar>
+                                                    <Avatar alt={event.title} src="/static/images/avatar/3.jpg" />
+                                                </ListItemAvatar>
 
-                                        <ListItem button alignItems="flex-start">
-                                            <ListItemAvatar>
-                                                <Avatar alt={text} src="/static/images/avatar/3.jpg" />
-                                            </ListItemAvatar>
-
-                                            <ListItemText
-                                                primary={text}
-                                                secondary={
-                                                    <React.Fragment>
+                                                <ListItemText
+                                                    primary={event.title}
+                                                    secondary={
                                                         <Typography
                                                             component="span"
                                                             variant="body2"
                                                             className={classes.inline}
                                                             color="textPrimary"
                                                         >
-                                                            Wut {index}
+                                                            {event.start.toString()}
                                                         </Typography>
-                                                        {' — Weird text'}
-                                                    </React.Fragment>
-                                                }
-                                            />
-                                        </ListItem>
+                                                    }
+                                                />
+                                            </ListItem>
+                                            : <div className={classes.hide}/>
+
 
                                     ))}
                                     <Link href="#" onClick={preventDefault} className={classes.centralize}>
