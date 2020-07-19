@@ -18,10 +18,9 @@ export class EventListRow extends React.Component {
         const user_role = user['role'];
         return (
             <TableRow key={this.props.key}>
-                { user_role === 'Organizer'?
-                    <TableCell> <Link to={`/events/${this.props.event._id}`}>{this.props.event.name} </Link></TableCell>
-                    : <TableCell><Link to={`/events/${this.props.event._id}`}>{this.props.event.name}</Link></TableCell>
-                }
+
+                <TableCell><Link to={`/events/${this.props.event._id}`}>{this.props.event.name}</Link></TableCell>
+
                 { user_role === 'Organizer'?
                     <TableCell align='right' size='small'><Link to={`/edit/${this.props.event._id}`}><EditIcon/></Link></TableCell>
                     : <TableCell align='right' size='small'> </TableCell>
