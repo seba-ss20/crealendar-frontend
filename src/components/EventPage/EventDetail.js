@@ -101,6 +101,7 @@ const EventDetail = (props: Props) => {
 	
 	const [open, setOpen] = useState(false);
 	const eventData = props.eventData;
+	console.log(eventData.name)
 	const classes = useStyles();
 	
 	const openAddFriendsDialog = () => {
@@ -111,7 +112,6 @@ const EventDetail = (props: Props) => {
         setOpen(false);
     }
 	
-	const AnyReactComponent = ({ text }) => <div>{text}</div>;
 	
 	return (
 		<Container component="main" maxWidth="xl" disableGutters={true} spacing={0}>
@@ -166,13 +166,12 @@ const EventDetail = (props: Props) => {
 				</Grid>
 				<Grid item xs={2}>
 					<div className={classes.rootButtons}>
-						<Button variant="contained" style={{maxWidth: 250, minWidth: 250}} startIcon={<AddIcon />}>Add to calendar</Button>
+						<Button variant="contained" style={{maxWidth: 250, minWidth: 250}} startIcon={<AddIcon />} onClick={() => props.onAddtoCalendar(eventData)} >Add to calendar</Button>
 					</div>
 					<div className={classes.rootButtons}>
 						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />}>Invite friends</Button>
 						<AddFriendsDialog
 							open={open}
-							setOpen={setOpen}
 							onCancel={handleClose}
 							eventData={eventData}
 						/>
