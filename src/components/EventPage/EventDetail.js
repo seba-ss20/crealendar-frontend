@@ -2,6 +2,7 @@ import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
+import ls from 'local-storage'
 
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
@@ -82,11 +83,6 @@ const useStyles = makeStyles((theme) => ({
 		height: 151,
 	}
 }));
-//AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70
-//  initialCenter={{lat: -1.2884, lng: 36.8233}} map position in nairobi
-//<Typography noWrap variant="body2" color="textSecondary" component="p" style={{ fontStyle: 'italic' }}>
-//								{new Date(eventData.timestamp).toLocaleString()}
-//							</Typography>
 
 type Props = {
 	eventData: any,
@@ -103,6 +99,7 @@ const EventDetail = (props: Props) => {
 	const [location, setLocation] = useState(eventData.location);
 	const [coords, setCoords] = useState();
 	const googleKey = "AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70";
+	const loggeduser = ls.get('userObject');
 	
 	const openAddFriendsDialog = () => {
         setOpen(true);
@@ -139,7 +136,7 @@ const EventDetail = (props: Props) => {
 						<div className={classes.information}></div>
 						<Grid item xs style={{ width: '100%', marginBottom: '10px' }}>
 							<Typography noWrap variant="body2" color="textSecondary" component="p" style={{ fontStyle: 'italic' }}>
-								{eventData.date}
+								{new Date(eventData.dateStart).toLocaleString()} - {new Date(eventData.dateEnd).toLocaleString()}
 							</Typography>
 						</Grid>
 						<Typography className={"MuiTypography--heading"} variant={"h4"} gutterBottom style={{ fontStyle: 'bold' }}>
@@ -181,10 +178,14 @@ const EventDetail = (props: Props) => {
 				</Grid>
 				<Grid item xs={2}>
 					<div className={classes.rootButtons}>
-						<Button variant="contained" style={{maxWidth: 250, minWidth: 250}} startIcon={<AddIcon />} onClick={() => props.onAddtoCalendar(eventData)} >Add to calendar</Button>
+						<Button variant="contained" style={{maxWidth: 250, minWidth: 250}} startIcon={<AddIcon />} onClick={() => props.onAddtoCalendar(eventData)} disabled={loggeduser.role === "Organizer"} >
+							Add to calendar
+						</Button>
 					</div>
 					<div className={classes.rootButtons}>
-						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />}>Invite friends</Button>
+						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />} >
+							Invite friends
+						</Button>
 						<AddFriendsDialog
 							open={open}
 							onCancel={handleClose}

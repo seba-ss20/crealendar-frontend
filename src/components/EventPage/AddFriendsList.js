@@ -96,8 +96,8 @@ function AddFriendsList(props: Props) {
 	
 	const classes = useStyles();
 	
+	
 	const [openAutocomplete, setOpenAutocomplete] = useState(false);
-	//onClick={handleClose}
 	const [openList, setOpenList] = useState(true);
 	const [openDialog, setOpenDialog] = useState(false);
 	
@@ -127,6 +127,7 @@ function AddFriendsList(props: Props) {
 		} else {
 			(async () => {
 				try {
+					console.log("username "+ username)
 					const response = await axios.get('http://localhost:3001/users/all', { params: {"username":username} })
 					const data = await response.data;
 					if (active) {
