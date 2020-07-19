@@ -40,37 +40,28 @@ const useStyles = makeStyles((theme) => ({
 	 flexGrow: 1,
 	 marginTop: theme.spacing(2),
   },
+  rootPromotions: {
+	 flexGrow: 1,
+	 marginTop: theme.spacing(2),
+  },
   paper1: {
 	fontSize: 14,
 	fontWeight: 'bold',
-	//marginTop: theme.spacing(10),
 	marginLeft: theme.spacing(43),
-    //padding: theme.spacing(2),
     textAlign: 'left',
-	//backgroundColor: 'transparent',
   },
   paper: {
 	height: 200,
 	fontSize: 14,
 	fontWeight: 'bold',
-	//marginTop: theme.spacing(10),
-	//marginLeft: theme.spacing(10),
-    //padding: theme.spacing(2),
     textAlign: 'left',
-	//backgroundColor: 'transparent',
   },
   card: {
 	backgroundColor: 'transparent',
-    //maxWidth: 300,
 	marginLeft: theme.spacing(33),
-    //margin: "auto",
-    //transition: "0.3s",
     boxShadow: "none",
   }, 
   cardright: {
-	  //backgroundColor: 'transparent',
-    //maxWidth: 300,
-	//marginRight: theme.spacing(33),
     margin: "auto",
     transition: "0.3s",
     boxShadow: "none",
@@ -99,6 +90,10 @@ const EventDetail = (props: Props) => {
 	const [coords, setCoords] = useState();
 	const googleKey = "AIzaSyCjI28k5sedkd5UTIkyOPXzEu13txomT70";
 	const loggeduser = ls.get('userObject');
+	const [promotions, setPromotions] = useState([
+		{name: "Free Tennis Lessons", description: "Make your appointment now bit.ly/123"},
+		{name: "30% Discount", description: "Get the best Tennis Rackets with fair prices only at Decathlon"},
+	])
 	
 	const openAddFriendsDialog = () => {
         setOpen(true);
@@ -182,7 +177,7 @@ const EventDetail = (props: Props) => {
 						</Button>
 					</div>
 					<div className={classes.rootButtons}>
-						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />} >
+						<Button variant="contained" onClick={openAddFriendsDialog} style={{maxWidth: 250, minWidth: 250}} startIcon={<TelegramIcon />} disabled={loggeduser.role === "Organizer"}>
 							Invite friends
 						</Button>
 						<AddFriendsDialog
@@ -193,18 +188,21 @@ const EventDetail = (props: Props) => {
 					</div>
 					{ location.length > 0 ? getLocation() : null }
 				</Grid>
-				<Grid item xs={2}>
-					<Card className={classes.cardright} border='none'>
-						<CardContent className={classes.content}>
-							<Typography className={"MuiTypography--heading"} variant={"h6"} gutterBottom>
-								{eventData.subtitle}
-							</Typography>
-							<Divider className={classes.divider} light />
-							<Typography className={"MuiTypography--subheading"} variant={"caption"}>
-								{eventData.description}
-							</Typography>
-						</CardContent>
-					</Card>
+				<Grid item xs={2} >
+					{ promotions && loggeduser.role === "User" ? promotions.map( promotion => (
+						<div className={classes.rootPromotions}>
+							<Card className={classes.cardright} border='none' variant="outlined">
+								<CardContent className={classes.content}>
+									<Typography className={"MuiTypography--heading"} variant={"h6"} gutterBottom>
+										{promotion.name}
+									</Typography>
+									<Typography className={"MuiTypography--subheading"} variant={"caption"}>
+										{promotion.description}
+									</Typography>
+								</CardContent>
+							</Card>
+						</div>
+					)) : null }
 				</Grid>
 			</Grid>
 		</div>
