@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { useState, useEffect } from "react";
 import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -12,7 +13,6 @@ import ls from 'local-storage'
 import InputBase from '@material-ui/core/InputBase';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import SearchIcon from '@material-ui/icons/Search';
 import axios from 'axios';
 
 // user list
@@ -21,10 +21,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import Checkbox from '@material-ui/core/Checkbox';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import { FixedSizeList } from 'react-window';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 // success dialog
 import Dialog from '@material-ui/core/Dialog';
@@ -32,6 +28,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import TelegramIcon from '@material-ui/icons/Telegram';
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -51,15 +49,6 @@ const useStyles = makeStyles(theme => ({
 		marginLeft: 0,
 		width: 300,
 	  },
-	searchIcon: {
-		padding: theme.spacing(0, 2),
-		height: '100%',
-		position: 'absolute',
-		pointerEvents: 'none',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
 	inputRoot: {
 		color: 'inherit',
 	},
@@ -261,7 +250,10 @@ function AddFriendsList(props: Props) {
 							<DialogTitle id="alert-dialog-title">{"You successfully send out invite(s)!"}</DialogTitle>
 							<DialogContent>
 							  <DialogContentText id="alert-dialog-description">
-								Please wait for a reply.
+								<Grid container justify="center" direction="column" alignItems="center">
+									<Grid item alignContent='center'><TelegramIcon /></Grid>
+									<Grid item alignContent='center'>Please wait for a reply.</Grid>
+								</Grid>
 							  </DialogContentText>
 							</DialogContent>
 							<DialogActions>

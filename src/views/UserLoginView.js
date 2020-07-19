@@ -3,7 +3,6 @@ import Login from '../components/Login'
 import UserService from '../services/UserService';
 import {Role} from '../helpers/roles';
 import Header from "../components/Header";
-import {Router, Switch} from "react-router-dom";
 import ls from 'local-storage'
 
 

@@ -1,9 +1,7 @@
 import EventFormPage from '../components/EventFormPage'
 import EventService from '../services/EventService';
 import React from 'react';
-import axios from 'axios';
 import ls from 'local-storage'
-import {eventURL} from '../config';
 
 export class EventFormPageView extends React.Component {
 
